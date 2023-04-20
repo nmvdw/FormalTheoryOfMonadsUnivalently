@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="./proofs-toggle.js" type="text/javascript"></script>
+	<style>
+		div.proofcomment {
+			font-style: italic;
+		}
+	</style>
+	<title>Documentation</title>
+</head>
+<body>
+<div id="page">
+<div id="main">
+<h1 class="libtitle">Library UniMath.AlgebraicTheories.Examples.ProjectionsTheory</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a id="lab2491"></a><h1 class="section">The initial algebraic theory, with T n = {1, ..., n} and pr i = i</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Foundations.All.html#"><span class="id" title="library">UniMath.Foundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.MoreFoundations.All.html#"><span class="id" title="library">UniMath.MoreFoundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Combinatorics.StandardFiniteSets.html#"><span class="id" title="library">UniMath.Combinatorics.StandardFiniteSets</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.AlgebraicTheories.AlgebraicBases.html#"><span class="id" title="library">UniMath.AlgebraicTheories.AlgebraicBases</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.AlgebraicTheories.AlgebraicTheories.html#"><span class="id" title="library">UniMath.AlgebraicTheories.AlgebraicTheories</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#"><span class="id" title="library">UniMath.AlgebraicTheories.AbstractClones.AbstractClones</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#"><span class="id" title="library">UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.AlgebraicTheories.AbstractCloneAlgebraicTheory.html#"><span class="id" title="library">UniMath.AlgebraicTheories.AbstractCloneAlgebraicTheory</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="projections_clone_data" class="idref" href="#projections_clone_data"><span class="id" title="definition">projections_clone_data</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#abstract_clone_data"><span class="id" title="definition">abstract_clone_data</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#make_abstract_clone_data"><span class="id" title="definition">make_abstract_clone_data</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="UniMath.AlgebraicTheories.AlgebraicBases.html#make_algebraic_base"><span class="id" title="definition">make_algebraic_base</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.Combinatorics.StandardFiniteSets.html#stnset"><span class="id" title="definition">stnset</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="f:1" class="idref" href="#f:1"><span class="id" title="binder">f</span></a> <a id="g:2" class="idref" href="#g:2"><span class="id" title="binder">g</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#g:2"><span class="id" title="variable">g</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#f:1"><span class="id" title="variable">f</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <a id="i:3" class="idref" href="#i:3"><span class="id" title="binder">i</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#i:3"><span class="id" title="variable">i</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="projections_is_clone" class="idref" href="#projections_is_clone"><span class="id" title="lemma">projections_is_clone</span></a> : <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#is_abstract_clone"><span class="id" title="definition">is_abstract_clone</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone_data"><span class="id" title="definition">projections_clone_data</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">now</span> <span class="id" title="var">use</span> <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#make_is_abstract_clone"><span class="id" title="definition">make_is_abstract_clone</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">intro</span>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="projections_clone" class="idref" href="#projections_clone"><span class="id" title="definition">projections_clone</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#abstract_clone"><span class="id" title="definition">abstract_clone</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractClones.html#make_abstract_clone"><span class="id" title="definition">make_abstract_clone</span></a> <span class="id" title="var">_</span> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_is_clone"><span class="id" title="lemma">projections_is_clone</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="projections_theory" class="idref" href="#projections_theory"><span class="id" title="definition">projections_theory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AlgebraicTheories.html#algebraic_theory"><span class="id" title="definition">algebraic_theory</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.AlgebraicTheories.AbstractCloneAlgebraicTheory.html#algebraic_theory_weq_abstract_clone"><span class="id" title="lemma">algebraic_theory_weq_abstract_clone</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone"><span class="id" title="definition">projections_clone</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="projections_clone_algebra_data" class="idref" href="#projections_clone_algebra_data"><span class="id" title="definition">projections_clone_algebra_data</span></a> (<a id="A:4" class="idref" href="#A:4"><span class="id" title="binder">A</span></a> : <a class="idref" href="UniMath.Foundations.Sets.html#hSet"><span class="id" title="definition">hSet</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#abstract_clone_algebra_data"><span class="id" title="definition">abstract_clone_algebra_data</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone"><span class="id" title="definition">projections_clone</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#make_abstract_clone_algebra_data"><span class="id" title="definition">make_abstract_clone_algebra_data</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#A:4"><span class="id" title="variable">A</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> (<a id="i:5" class="idref" href="#i:5"><span class="id" title="binder">i</span></a> : <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone"><span class="id" title="definition">projections_clone</span></a> <span class="id" title="var">_</span>) <a id="f:6" class="idref" href="#f:6"><span class="id" title="binder">f</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#f:6"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#i:5"><span class="id" title="variable">i</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="projections_clone_algebra_is_algebra" class="idref" href="#projections_clone_algebra_is_algebra"><span class="id" title="lemma">projections_clone_algebra_is_algebra</span></a> (<a id="A:7" class="idref" href="#A:7"><span class="id" title="binder">A</span></a> : <a class="idref" href="UniMath.Foundations.Sets.html#hSet"><span class="id" title="definition">hSet</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#is_abstract_clone_algebra"><span class="id" title="definition">is_abstract_clone_algebra</span></a> (<a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone_algebra_data"><span class="id" title="definition">projections_clone_algebra_data</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#A:7"><span class="id" title="variable">A</span></a>).<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#make_is_abstract_clone_algebra"><span class="id" title="definition">make_is_abstract_clone_algebra</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">now</span> <span class="id" title="tactic">repeat</span> <span class="id" title="tactic">intro</span>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="projections_clone_algebra" class="idref" href="#projections_clone_algebra"><span class="id" title="definition">projections_clone_algebra</span></a> (<a id="A:8" class="idref" href="#A:8"><span class="id" title="binder">A</span></a> : <a class="idref" href="UniMath.Foundations.Sets.html#hSet"><span class="id" title="definition">hSet</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#abstract_clone_algebra"><span class="id" title="definition">abstract_clone_algebra</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone"><span class="id" title="definition">projections_clone</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.AlgebraicTheories.AbstractClones.AbstractCloneAlgebras.html#make_abstract_clone_algebra"><span class="id" title="definition">make_abstract_clone_algebra</span></a> <span class="id" title="var">_</span> (<a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#projections_clone_algebra_is_algebra"><span class="id" title="lemma">projections_clone_algebra_is_algebra</span></a> <a class="idref" href="UniMath.AlgebraicTheories.Examples.ProjectionsTheory.html#A:8"><span class="id" title="variable">A</span></a>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
