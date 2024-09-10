@@ -87,11 +87,11 @@ The following lemma is already in precategories.v . It should be transparent?
 </div>
 
 <div class="doc">
-<a id="lab1114"></a><h1 class="section">Covariant Yoneda functor</h1>
+<a id="lab1139"></a><h1 class="section">Covariant Yoneda functor</h1>
 
 <div class="paragraph"> </div>
 
-<a id="lab1115"></a><h2 class="section">On objects</h2>
+<a id="lab1140"></a><h2 class="section">On objects</h2>
 
 </div>
 <div class="code">
@@ -106,7 +106,7 @@ The following lemma is already in precategories.v . It should be transparent?
 <span class="id" title="keyword">Definition</span> <a id="covyoneda_ob_functor_data" class="idref" href="#covyoneda_ob_functor_data"><span class="id" title="definition">covyoneda_ob_functor_data</span></a> (<a id="C:4" class="idref" href="#C:4"><span class="id" title="binder">C</span></a> : <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#category"><span class="id" title="definition">category</span></a>) (<a id="c:5" class="idref" href="#c:5"><span class="id" title="binder">c</span></a> : <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#C:4"><span class="id" title="variable">C</span></a><a class="idref" href="UniMath.CategoryTheory.opp_precat.html#3fe3b9c50e890a929497aff54b35977e"><span class="id" title="notation">^</span></a><a class="idref" href="UniMath.CategoryTheory.opp_precat.html#3fe3b9c50e890a929497aff54b35977e"><span class="id" title="notation">op</span></a>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_data"><span class="id" title="definition">functor_data</span></a> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#C:4"><span class="id" title="variable">C</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'HSET'"><span class="id" title="notation">HSET</span></a>.<br/>
 <a class="proof" href="#">Show proof.</a><br/><div class="proof">
-<span class="id" title="tactic">exists</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="c':7" class="idref" href="#c':7"><span class="id" title="binder">c'</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Sets.html#make_hSet"><span class="id" title="definition">make_hSet</span></a> (<a class="idref" href="UniMath.CategoryTheory.covyoneda.html#covyoneda_objects_ob"><span class="id" title="definition">covyoneda_objects_ob</span></a> <span class="id" title="var">C</span> <span class="id" title="var">c</span> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#c':6"><span class="id" title="variable">c'</span></a>) (<a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a> <span class="id" title="var">C</span> <span class="id" title="var">c</span> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#c':6"><span class="id" title="variable">c'</span></a>)) .<br/>
+<span class="id" title="tactic">exists</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="c':6" class="idref" href="#c':6"><span class="id" title="binder"><span id="c':7" class="id">c'</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Sets.html#make_hSet"><span class="id" title="definition">make_hSet</span></a> (<a class="idref" href="UniMath.CategoryTheory.covyoneda.html#covyoneda_objects_ob"><span class="id" title="definition">covyoneda_objects_ob</span></a> <span class="id" title="var">C</span> <span class="id" title="var">c</span> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#c':6"><span class="id" title="variable">c'</span></a>) (<a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a> <span class="id" title="var">C</span> <span class="id" title="var">c</span> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#c':6"><span class="id" title="variable">c'</span></a>)) .<br/>
 <span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>. <span class="id" title="tactic">unfold</span> <a class="idref" href="UniMath.CategoryTheory.covyoneda.html#covyoneda_objects_ob"><span class="id" title="definition">covyoneda_objects_ob</span></a> <span class="id" title="tactic">in</span> *. <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> *.<br/>
 <span class="id" title="tactic">exact</span> (<span class="id" title="var">g</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">f</span>).<br/>
 </div>
@@ -129,7 +129,7 @@ The following lemma is already in precategories.v . It should be transparent?
 </div>
 
 <div class="doc">
-<a id="lab1116"></a><h2 class="section">On morphisms</h2>
+<a id="lab1141"></a><h2 class="section">On morphisms</h2>
 
 </div>
 <div class="code">
@@ -166,7 +166,7 @@ The following lemma is already in precategories.v . It should be transparent?
 </div>
 
 <div class="doc">
-<a id="lab1117"></a><h2 class="section">Functorial properties of the yoneda assignments</h2>
+<a id="lab1142"></a><h2 class="section">Functorial properties of the yoneda assignments</h2>
 
 </div>
 <div class="code">

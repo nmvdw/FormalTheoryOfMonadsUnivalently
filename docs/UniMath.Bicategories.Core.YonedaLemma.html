@@ -21,7 +21,7 @@
 </div>
 
 <div class="doc">
-<a id="lab2024"></a><h1 class="section">Yoneda Lemma</h1>
+<a id="lab2106"></a><h1 class="section">Yoneda Lemma</h1>
 
     Niccolo Veltri, Niels van der Weide
     June 2019
@@ -309,7 +309,7 @@ Next, we construct a functor in the opposite direction
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.CategoryTheory.Core.NaturalTransformations.html#nat_trans_eq_pointwise"><span class="id" title="definition">nat_trans_eq_pointwise</span></a> (<a class="idref" href="UniMath.Bicategories.PseudoFunctors.PseudoFunctor.html#psfunctor_rinvunitor"><span class="id" title="definition">psfunctor_rinvunitor</span></a> <a class="idref" href="UniMath.Bicategories.Core.YonedaLemma.html#YonedaLemma.F"><span class="id" title="variable">F</span></a> <span class="id" title="var">h</span>) <a class="idref" href="UniMath.Bicategories.Core.YonedaLemma.html#YonedaLemma.PresheafToYonedaOb.x"><span class="id" title="variable">x</span></a>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">psfunctor_id</span> <span class="id" title="var">psfunctor_comp</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<a class="idref" href="UniMath.Bicategories.PseudoFunctors.PseudoFunctor.html#psfunctor_id"><span class="id" title="definition">psfunctor_id</span></a> <a class="idref" href="UniMath.Bicategories.PseudoFunctors.PseudoFunctor.html#psfunctor_comp"><span class="id" title="definition">psfunctor_comp</span></a>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.MoreFoundations.PartA.html#maponpaths_2"><span class="id" title="definition">maponpaths_2</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#id_left"><span class="id" title="definition">id_left</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">Y₁</span> <span class="id" title="var">Y₂</span> <span class="id" title="var">Y₃</span> <span class="id" title="var">g₁</span> <span class="id" title="var">g₂</span>.<br/>

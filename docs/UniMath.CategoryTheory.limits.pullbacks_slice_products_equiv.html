@@ -62,7 +62,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1364"></a><h1 class="section">Proof that the types of binary products in C/Z and pullbacks of pairs of arrows to Z in C are equivalent</h1>
+<a id="lab1379"></a><h1 class="section">Proof that the types of binary products in C/Z and pullbacks of pairs of arrows to Z in C are equivalent</h1>
 
 </div>
 <div class="code">
@@ -78,7 +78,7 @@ Contents : Equivalence of binary products in C/Z to
 
 <br/>
 &nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<a id="C:10" class="idref" href="#C:10"><span class="id" title="binder">C</span></a> : <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#category"><span class="id" title="definition">category</span></a>).<br/>
-&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "C / X" := (<a class="idref" href="UniMath.CategoryTheory.slicecat.html#slice_cat"><span class="id" title="definition">slice_cat</span></a> <span class="id" title="var">C</span> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local Notation</span> <a id="8c28772147e7da7ee5c4cd13a052ce49" class="idref" href="#8c28772147e7da7ee5c4cd13a052ce49"><span class="id" title="notation">&quot;</span></a>C / X" := (<a class="idref" href="UniMath.CategoryTheory.slicecat.html#slice_cat"><span class="id" title="definition">slice_cat</span></a> <span class="id" title="var">C</span> <span class="id" title="var">X</span>).<br/>
 
 <br/>
 &nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="isPullback_to_isBinProduct" class="idref" href="#isPullback_to_isBinProduct"><span class="id" title="lemma">isPullback_to_isBinProduct</span></a> {<a id="Z:11" class="idref" href="#Z:11"><span class="id" title="binder">Z</span></a> : <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#pullbacks_slice_products_equiv.C"><span class="id" title="variable">C</span></a>} {<a id="AZ:12" class="idref" href="#AZ:12"><span class="id" title="binder">AZ</span></a> <a id="BZ:13" class="idref" href="#BZ:13"><span class="id" title="binder">BZ</span></a> <a id="PZ:14" class="idref" href="#PZ:14"><span class="id" title="binder">PZ</span></a> : <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#pullbacks_slice_products_equiv.C"><span class="id" title="variable">C</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#8c28772147e7da7ee5c4cd13a052ce49"><span class="id" title="notation">/</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#Z:11"><span class="id" title="variable">Z</span></a>} {<a id="l:15" class="idref" href="#l:15"><span class="id" title="binder">l</span></a> : <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#PZ:14"><span class="id" title="variable">PZ</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#::cat:x_'--&gt;'_x"><span class="id" title="notation">--&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#AZ:12"><span class="id" title="variable">AZ</span></a>} {<a id="r:16" class="idref" href="#r:16"><span class="id" title="binder">r</span></a> : <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#PZ:14"><span class="id" title="variable">PZ</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#::cat:x_'--&gt;'_x"><span class="id" title="notation">--&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#BZ:13"><span class="id" title="variable">BZ</span></a>} :<br/>
@@ -117,7 +117,7 @@ Contents : Equivalence of binary products in C/Z to
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span> (<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.PartB.html#isofhleveldirprod"><span class="id" title="lemma">isofhleveldirprod</span></a>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#pullbacks_slice_products_equiv.C"><span class="id" title="variable">C</span></a>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">t</span> <span class="id" title="var">teqs</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> (<span class="id" title="var">PisProd</span> (<span class="id" title="var">Y</span> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">j</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">f</span>) (<span class="id" title="var">j</span> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a> <span class="id" title="var">_</span>) (<span class="id" title="var">k</span> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">Yeq</span>))<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><span class="id" title="var">t</span> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="x:28" class="idref" href="#x:28"><span class="id" title="binder">x</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#x:26"><span class="id" title="variable">x</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">f</span>) (<a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!(</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">teqs</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a>) <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!(</span></a><a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="x:29" class="idref" href="#x:29"><span class="id" title="binder">x</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <span class="id" title="var">t</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#x:27"><span class="id" title="variable">x</span></a>) (<a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a> <span class="id" title="var">_</span>)<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">))</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">_</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><span class="id" title="var">t</span> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="x:26" class="idref" href="#x:26"><span class="id" title="binder"><span id="x:28" class="id">x</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#x:26"><span class="id" title="variable">x</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">f</span>) (<a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!(</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">teqs</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a>) <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!(</span></a><a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="x:27" class="idref" href="#x:27"><span class="id" title="binder"><span id="x:29" class="id">x</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <span class="id" title="var">t</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks_slice_products_equiv.html#x:27"><span class="id" title="variable">x</span></a>) (<a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a> <span class="id" title="var">_</span>)<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">))</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">_</span>)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">abstract</span> (<span class="id" title="tactic">split</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.slicecat.html#eq_mor_slicecat"><span class="id" title="lemma">eq_mor_slicecat</span></a>; [<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">teqs</span>) | <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">teqs</span>)]).<br/>
 </div>
 
@@ -125,7 +125,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1365"></a><h2 class="section">equivalence of function taking proof of isPullback to proof of isBinProduct</h2>
+<a id="lab1380"></a><h2 class="section">equivalence of function taking proof of isPullback to proof of isBinProduct</h2>
 
 </div>
 <div class="code">
@@ -152,7 +152,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1366"></a><h2 class="section">equivalence of function taking proof of isBinProduct to proof of isPullback</h2>
+<a id="lab1381"></a><h2 class="section">equivalence of function taking proof of isBinProduct to proof of isPullback</h2>
 
 </div>
 <div class="code">
@@ -174,7 +174,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1367"></a><h2 class="section">pullback_to_slice_binprod is invertible</h2>
+<a id="lab1382"></a><h2 class="section">pullback_to_slice_binprod is invertible</h2>
 
 </div>
 <div class="code">
@@ -197,7 +197,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1368"></a><h2 class="section">slice_binprod_to_pullback is invertible</h2>
+<a id="lab1383"></a><h2 class="section">slice_binprod_to_pullback is invertible</h2>
 
 </div>
 <div class="code">
@@ -229,7 +229,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1369"></a><h2 class="section">function taking the type of all binary products in C / Z</h2>
+<a id="lab1384"></a><h2 class="section">function taking the type of all binary products in C / Z</h2>
 
          to the type of all pullbacks of functions to Z in C 
 </div>
@@ -246,7 +246,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1370"></a><h2 class="section">function taking the type of all pullbacks of functions to Z in C</h2>
+<a id="lab1385"></a><h2 class="section">function taking the type of all pullbacks of functions to Z in C</h2>
 
          to the type of all binary products in C / Z  
 </div>
@@ -261,7 +261,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1371"></a><h2 class="section">binprod_to_pullback is invertible</h2>
+<a id="lab1386"></a><h2 class="section">binprod_to_pullback is invertible</h2>
 
 </div>
 <div class="code">
@@ -279,7 +279,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1372"></a><h2 class="section">pullback_to_binprod is invertible</h2>
+<a id="lab1387"></a><h2 class="section">pullback_to_binprod is invertible</h2>
 
 </div>
 <div class="code">
@@ -300,7 +300,7 @@ Contents : Equivalence of binary products in C/Z to
 </div>
 
 <div class="doc">
-<a id="lab1373"></a><h2 class="section">the equivalence of the types of binary products in C/Z</h2>
+<a id="lab1388"></a><h2 class="section">the equivalence of the types of binary products in C/Z</h2>
 
          and pullbacks of pairs of arrows to Z in C 
 </div>

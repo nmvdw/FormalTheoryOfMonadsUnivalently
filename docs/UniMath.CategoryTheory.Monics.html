@@ -21,8 +21,8 @@
 </div>
 
 <div class="doc">
-<a id="lab1031"></a><h1 class="section">Monics</h1>
-<a id="lab1032"></a><h2 class="section">Contents</h2>
+<a id="lab1056"></a><h1 class="section">Monics</h1>
+<a id="lab1057"></a><h2 class="section">Contents</h2>
 
 <ul class="doclist">
 <li> Definitions of Monics
@@ -59,7 +59,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1033"></a><h1 class="section">Definition of Monics</h1>
+<a id="lab1058"></a><h1 class="section">Definition of Monics</h1>
 
 </div>
 <div class="code">
@@ -186,7 +186,7 @@ If precomposition of g with f is a monic, then f is a monic.
 &nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.CategoryTheory.Monics.html#isMonic"><span class="id" title="definition">isMonic</span></a> (<a class="idref" href="UniMath.CategoryTheory.Monics.html#f:54"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#g:55"><span class="id" title="variable">g</span></a>) <a class="idref" href="UniMath.Foundations.Init.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#isMonic"><span class="id" title="definition">isMonic</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f:54"><span class="id" title="variable">f</span></a>.<br/>
 &nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span>. <span class="id" title="tactic">intros</span> <span class="id" title="var">w</span> φ ψ <span class="id" title="var">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="f':57" class="idref" href="#f':57"><span class="id" title="binder">f'</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f':56"><span class="id" title="variable">f'</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">g</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="f':56" class="idref" href="#f':56"><span class="id" title="binder"><span id="f':57" class="id">f'</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f':56"><span class="id" title="variable">f'</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">g</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="var">X</span> <span class="id" title="var">w</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">H</span>).<br/>
 </div>
@@ -225,7 +225,7 @@ Transport of isMonic
 </div>
 
 <div class="doc">
-<a id="lab1034"></a><h1 class="section">Construction of the subcategory consisting of all monics.</h1>
+<a id="lab1059"></a><h1 class="section">Construction of the subcategory consisting of all monics.</h1>
 
 </div>
 <div class="code">
@@ -274,7 +274,7 @@ Transport of isMonic
 &nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.Foundations.Preamble.html#tpair"><span class="id" title="constructor">tpair</span></a> <span class="id" title="var">_</span> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f:87"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#isM:88"><span class="id" title="variable">isM</span></a>.<br/>
 
 <br/>
-&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Lemma</span> <a id="is_z_iso_in_subcategory_of_monics_from_is_z_iso" class="idref" href="#is_z_iso_in_subcategory_of_monics_from_is_z_iso"><span class="id" title="lemma">is_z_iso_in_subcategory_of_monics_from_is_z_iso</span></a> (<a id="a:89" class="idref" href="#a:89"><span class="id" title="binder">a</span></a> <a id="b:90" class="idref" href="#b:90"><span class="id" title="binder">b</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monics.html#subcategory_of_monics"><span class="id" title="definition">subcategory_of_monics</span></a>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local Lemma</span> <a id="is_z_iso_in_subcategory_of_monics_from_is_z_iso" class="idref" href="#is_z_iso_in_subcategory_of_monics_from_is_z_iso"><span class="id" title="lemma">is_z_iso_in_subcategory_of_monics_from_is_z_iso</span></a> (<a id="a:89" class="idref" href="#a:89"><span class="id" title="binder">a</span></a> <a id="b:90" class="idref" href="#b:90"><span class="id" title="binder">b</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monics.html#subcategory_of_monics"><span class="id" title="definition">subcategory_of_monics</span></a>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:91" class="idref" href="#f:91"><span class="id" title="binder">f</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monics.html#monics_subcategory.C"><span class="id" title="variable">C</span></a><a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#d8ada6469fb541a06c26fd71a9ef7ac3"><span class="id" title="notation">⟦</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#a:89"><span class="id" title="variable">a</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#d8ada6469fb541a06c26fd71a9ef7ac3"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#b:90"><span class="id" title="variable">b</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#d8ada6469fb541a06c26fd71a9ef7ac3"><span class="id" title="notation">⟧</span></a>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:92" class="idref" href="#p:92"><span class="id" title="binder">p</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monics.html#isMonic"><span class="id" title="definition">isMonic</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f:91"><span class="id" title="variable">f</span></a>) (<a id="H:93" class="idref" href="#H:93"><span class="id" title="binder">H</span></a> : <a class="idref" href="UniMath.CategoryTheory.Core.Isos.html#is_z_isomorphism"><span class="id" title="definition">is_z_isomorphism</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f:91"><span class="id" title="variable">f</span></a>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Isos.html#is_z_isomorphism"><span class="id" title="definition">is_z_isomorphism</span></a> (<a class="idref" href="UniMath.CategoryTheory.Subcategory.Core.html#precategory_morphisms_in_subcat"><span class="id" title="definition">precategory_morphisms_in_subcat</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#f:91"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Monics.html#p:92"><span class="id" title="variable">p</span></a>).<br/>
@@ -309,7 +309,7 @@ Transport of isMonic
 </div>
 
 <div class="doc">
-<a id="lab1035"></a><h1 class="section">In functor categories monics can be constructed from pointwise monics</h1>
+<a id="lab1060"></a><h1 class="section">In functor categories monics can be constructed from pointwise monics</h1>
 
 </div>
 <div class="code">

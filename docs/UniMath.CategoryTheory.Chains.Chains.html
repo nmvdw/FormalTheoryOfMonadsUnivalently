@@ -21,7 +21,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1773"></a><h1 class="section">Chains</h1>
+<a id="lab1784"></a><h1 class="section">Chains</h1>
 
 
 <div class="paragraph"> </div>
@@ -176,7 +176,7 @@ Construct the chain:
 <div class="code">
 <span class="id" title="keyword">Definition</span> <a id="initChain" class="idref" href="#initChain"><span class="id" title="definition">initChain</span></a> {<a id="C:30" class="idref" href="#C:30"><span class="id" title="binder">C</span></a> : <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#category"><span class="id" title="definition">category</span></a>} (<a id="InitC:31" class="idref" href="#InitC:31"><span class="id" title="binder">InitC</span></a> : <a class="idref" href="UniMath.CategoryTheory.limits.initial.html#Initial"><span class="id" title="definition">Initial</span></a> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#C:30"><span class="id" title="variable">C</span></a>) (<a id="F:32" class="idref" href="#F:32"><span class="id" title="binder">F</span></a> : <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor"><span class="id" title="definition">functor</span></a> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#C:30"><span class="id" title="variable">C</span></a> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#C:30"><span class="id" title="variable">C</span></a>) : <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#:::'chain'"><span class="id" title="notation">chain</span></a> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#:::'chain'"><span class="id" title="notation">C</span></a>.<br/>
 <a class="proof" href="#">Show proof.</a><br/><div class="proof">
-<span class="id" title="tactic">exists</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="n:34" class="idref" href="#n:34"><span class="id" title="binder">n</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#iter_functor"><span class="id" title="definition">iter_functor</span></a> <span class="id" title="var">F</span> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#n:33"><span class="id" title="variable">n</span></a> <span class="id" title="var">InitC</span>).<br/>
+<span class="id" title="tactic">exists</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="n:33" class="idref" href="#n:33"><span class="id" title="binder"><span id="n:34" class="id">n</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#iter_functor"><span class="id" title="definition">iter_functor</span></a> <span class="id" title="var">F</span> <a class="idref" href="UniMath.CategoryTheory.Chains.Chains.html#n:33"><span class="id" title="variable">n</span></a> <span class="id" title="var">InitC</span>).<br/>
 <span class="id" title="tactic">intros</span> <span class="id" title="var">m</span> <span class="id" title="var">n</span> <span class="id" title="var">Hmn</span>. <span class="id" title="tactic">destruct</span> <span class="id" title="var">Hmn</span>. <span class="id" title="tactic">simpl</span>.<br/>
 <span class="id" title="tactic">induction</span> <span class="id" title="var">m</span> <span class="id" title="keyword">as</span> [|<span class="id" title="var">m</span> <span class="id" title="var">IHm</span>]; <span class="id" title="tactic">simpl</span>.<br/>
 - <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.CategoryTheory.limits.initial.html#InitialArrow"><span class="id" title="definition">InitialArrow</span></a> <span class="id" title="var">InitC</span> <span class="id" title="var">_</span>).<br/>
@@ -187,7 +187,7 @@ Construct the chain:
 </div>
 
 <div class="doc">
-<a id="lab1774"></a><h2 class="section">Definition of (ω-)cocontinuous functors</h2>
+<a id="lab1785"></a><h2 class="section">Definition of (ω-)cocontinuous functors</h2>
 
 </div>
 <div class="code">

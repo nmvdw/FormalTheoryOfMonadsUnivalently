@@ -21,7 +21,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1347"></a><h1 class="section">Coslice categories</h1>
+<a id="lab1360"></a><h1 class="section">Coslice categories</h1>
 
 
 <div class="paragraph"> </div>
@@ -30,7 +30,7 @@ Author: Langston Barrett (@siddharthist), March 2018
 
 <div class="paragraph"> </div>
 
-<a id="lab1348"></a><h2 class="section">Contents:</h2>
+<a id="lab1361"></a><h2 class="section">Contents:</h2>
 
 
 <div class="paragraph"> </div>
@@ -73,7 +73,7 @@ for second construction:
 </div>
 
 <div class="doc">
-<a id="lab1349"></a><h1 class="section">Definition of coslice categories</h1>
+<a id="lab1362"></a><h1 class="section">Definition of coslice categories</h1>
 
 <div class="paragraph"> </div>
 
@@ -148,7 +148,7 @@ Definitions
 &nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.Preamble.html#tpair"><span class="id" title="constructor">tpair</span></a>.<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslicecat_mor_morphism"><span class="id" title="definition">coslicecat_mor_morphism</span></a> <span class="id" title="var">f</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslicecat_mor_morphism"><span class="id" title="definition">coslicecat_mor_morphism</span></a> <span class="id" title="var">g</span>).<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">abstract</span> (<span class="id" title="tactic">refine</span> (<a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <span class="id" title="var">_</span>);<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="f:22" class="idref" href="#f:22"><span class="id" title="binder">f</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#f:21"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslicecat_mor_comm"><span class="id" title="definition">coslicecat_mor_comm</span></a> <span class="id" title="var">f</span>) <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <span class="id" title="var">_</span>);<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="f:21" class="idref" href="#f:21"><span class="id" title="binder"><span id="f:22" class="id">f</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#f:21"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslicecat_mor_comm"><span class="id" title="definition">coslicecat_mor_comm</span></a> <span class="id" title="var">f</span>) <a class="idref" href="UniMath.Foundations.PartA.html#8b57b11be4275b47948f6caec264b70f"><span class="id" title="notation">@</span></a> <span class="id" title="var">_</span>);<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslicecat_mor_comm"><span class="id" title="definition">coslicecat_mor_comm</span></a> <span class="id" title="var">g</span>)).<br/>
 </div>
 
@@ -228,13 +228,21 @@ that the previous Lemma is defined was done on purpose in 2018 - is it still app
 </div>
 
 <br/>
+<span class="id" title="keyword">Definition</span> <a id="coslice_cat_disp_data" class="idref" href="#coslice_cat_disp_data"><span class="id" title="definition">coslice_cat_disp_data</span></a> : <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Core.html#disp_cat_data"><span class="id" title="definition">disp_cat_data</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_ob_mor"><span class="id" title="definition">coslice_cat_disp_ob_mor</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_id_comp"><span class="id" title="lemma">coslice_cat_disp_id_comp</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a id="coslice_cat_disp_locally_prop" class="idref" href="#coslice_cat_disp_locally_prop"><span class="id" title="lemma">coslice_cat_disp_locally_prop</span></a> : <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Core.html#locally_propositional"><span class="id" title="definition">locally_propositional</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_data"><span class="id" title="definition">coslice_cat_disp_data</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a>.<br/>
+</div>
+
+<br/>
 <span class="id" title="keyword">Definition</span> <a id="coslice_cat_disp" class="idref" href="#coslice_cat_disp"><span class="id" title="definition">coslice_cat_disp</span></a> : <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Core.html#disp_cat"><span class="id" title="definition">disp_cat</span></a> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a>.<br/>
 <a class="proof" href="#">Show proof.</a><br/><div class="proof">
-&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.Preamble.html#tpair"><span class="id" title="constructor">tpair</span></a>.<br/>
-&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.Preamble.html#tpair"><span class="id" title="constructor">tpair</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_ob_mor"><span class="id" title="definition">coslice_cat_disp_ob_mor</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_id_comp"><span class="id" title="lemma">coslice_cat_disp_id_comp</span></a>.<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span> (<span class="id" title="var">split4</span>; <span class="id" title="tactic">intros</span>; [<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a> | <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a> | <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a> | <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.PartB.html#isasetaprop"><span class="id" title="lemma">isasetaprop</span></a>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_displayed.C"><span class="id" title="variable">C</span></a>]).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Core.html#make_disp_cat_locally_prop"><span class="id" title="definition">make_disp_cat_locally_prop</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_data"><span class="id" title="definition">coslice_cat_disp_data</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.coslicecat.html#coslice_cat_disp_locally_prop"><span class="id" title="lemma">coslice_cat_disp_locally_prop</span></a>.<br/>
 </div>
 
 <br/>

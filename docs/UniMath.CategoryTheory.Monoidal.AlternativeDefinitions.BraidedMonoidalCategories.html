@@ -34,7 +34,7 @@ Braided monoidal precategories.
 *
 <div class="paragraph"> </div>
 
-<a id="lab1896"></a><h2 class="section">Contents:</h2>
+<a id="lab1925"></a><h2 class="section">Contents:</h2>
 
 
 <div class="paragraph"> </div>
@@ -74,7 +74,7 @@ Braided monoidal precategories.
 </div>
 
 <div class="doc">
-<a id="lab1897"></a><h1 class="section">Braidings</h1>
+<a id="lab1926"></a><h1 class="section">Braidings</h1>
 
 </div>
 <div class="code">
@@ -90,8 +90,8 @@ In this section, fix a monoidal category.
 <span class="id" title="keyword">Context</span> (<a id="MonM:1" class="idref" href="#MonM:1"><span class="id" title="binder">MonM</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#monoidal_cat"><span class="id" title="definition">monoidal_cat</span></a>).<br/>
 
 <br/>
-<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="tensor" class="idref" href="#tensor"><span class="id" title="definition">tensor</span></a>   := <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#monoidal_cat_tensor"><span class="id" title="definition">monoidal_cat_tensor</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.MonM"><span class="id" title="variable">MonM</span></a>.<br/>
-<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="ab410a966ac148e9b78c65c6cdf301fd" class="idref" href="#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>        := <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#monoidal_cat_associator"><span class="id" title="definition">monoidal_cat_associator</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.MonM"><span class="id" title="variable">MonM</span></a>.<br/>
+<span class="id" title="keyword">Local Definition</span> <a id="tensor" class="idref" href="#tensor"><span class="id" title="definition">tensor</span></a>   := <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#monoidal_cat_tensor"><span class="id" title="definition">monoidal_cat_tensor</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.MonM"><span class="id" title="variable">MonM</span></a>.<br/>
+<span class="id" title="keyword">Local Definition</span> <a id="ab410a966ac148e9b78c65c6cdf301fd" class="idref" href="#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>        := <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#monoidal_cat_associator"><span class="id" title="definition">monoidal_cat_associator</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.MonM"><span class="id" title="variable">MonM</span></a>.<br/>
 
 <br/>
 <span class="id" title="keyword">Notation</span> <a id="6b99d9af18fbd72d058104b402e12b40" class="idref" href="#6b99d9af18fbd72d058104b402e12b40"><span class="id" title="notation">&quot;</span></a>X ⊗ Y" := (<a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#tensor"><span class="id" title="definition">tensor</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#62264328926d76449e4f268ee9289ca9"><span class="id" title="notation">(</span></a><span class="id" title="var">X</span><a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#62264328926d76449e4f268ee9289ca9"><span class="id" title="notation">,</span></a> <span class="id" title="var">Y</span><a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.MonoidalCategoriesTensored.html#62264328926d76449e4f268ee9289ca9"><span class="id" title="notation">)</span></a>).<br/>
@@ -104,7 +104,7 @@ In this section, fix a monoidal category.
 </div>
 
 <div class="doc">
-<a id="lab1898"></a><h1 class="section">Hexagon equations.</h1>
+<a id="lab1927"></a><h1 class="section">Hexagon equations.</h1>
 
 </div>
 <div class="code">
@@ -112,9 +112,9 @@ In this section, fix a monoidal category.
 
 <br/>
 <span class="id" title="keyword">Context</span> (<a id="braid:2" class="idref" href="#braid:2"><span class="id" title="binder">braid</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#braiding"><span class="id" title="definition">braiding</span></a>).<br/>
-<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="b0e5ed29efd576246de3282fa163293b" class="idref" href="#b0e5ed29efd576246de3282fa163293b"><span class="id" title="definition">γ</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.HexagonEquations.braid"><span class="id" title="variable">braid</span></a>.<br/>
-<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="8976e94ee562e4d09fa83aa5618b212c" class="idref" href="#8976e94ee562e4d09fa83aa5618b212c"><span class="id" title="definition">α₁</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>.<br/>
-<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a id="3e67de3357c77b04c9106e26d5ef76ba" class="idref" href="#3e67de3357c77b04c9106e26d5ef76ba"><span class="id" title="definition">α₂</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> (<a class="idref" href="UniMath.CategoryTheory.Core.NaturalTransformations.html#nat_z_iso_inv"><span class="id" title="definition">nat_z_iso_inv</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>).<br/>
+<span class="id" title="keyword">Local Definition</span> <a id="b0e5ed29efd576246de3282fa163293b" class="idref" href="#b0e5ed29efd576246de3282fa163293b"><span class="id" title="definition">γ</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#Braiding.HexagonEquations.braid"><span class="id" title="variable">braid</span></a>.<br/>
+<span class="id" title="keyword">Local Definition</span> <a id="8976e94ee562e4d09fa83aa5618b212c" class="idref" href="#8976e94ee562e4d09fa83aa5618b212c"><span class="id" title="definition">α₁</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>.<br/>
+<span class="id" title="keyword">Local Definition</span> <a id="3e67de3357c77b04c9106e26d5ef76ba" class="idref" href="#3e67de3357c77b04c9106e26d5ef76ba"><span class="id" title="definition">α₂</span></a> := <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> (<a class="idref" href="UniMath.CategoryTheory.Core.NaturalTransformations.html#nat_z_iso_inv"><span class="id" title="definition">nat_z_iso_inv</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.AlternativeDefinitions.BraidedMonoidalCategories.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="definition">α</span></a>).<br/>
 
 <br/>
 <span class="id" title="keyword">Definition</span> <a id="first_hexagon_eq" class="idref" href="#first_hexagon_eq"><span class="id" title="definition">first_hexagon_eq</span></a> : <a class="idref" href="UniMath.Foundations.Preamble.html#UU"><span class="id" title="definition">UU</span></a> :=<br/>
@@ -138,7 +138,7 @@ In this section, fix a monoidal category.
 </div>
 
 <div class="doc">
-<a id="lab1899"></a><h1 class="section">Braided monoidal categories</h1>
+<a id="lab1928"></a><h1 class="section">Braided monoidal categories</h1>
 
 </div>
 <div class="code">
@@ -151,7 +151,7 @@ In this section, fix a monoidal category.
 </div>
 
 <div class="doc">
-<a id="lab1900"></a><h2 class="section">Accessors</h2>
+<a id="lab1929"></a><h2 class="section">Accessors</h2>
 
 </div>
 <div class="code">

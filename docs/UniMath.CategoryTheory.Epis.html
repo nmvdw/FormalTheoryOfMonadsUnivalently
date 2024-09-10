@@ -21,8 +21,8 @@
 </div>
 
 <div class="doc">
-<a id="lab1036"></a><h1 class="section">Epis</h1>
-<a id="lab1037"></a><h2 class="section">Contents</h2>
+<a id="lab1061"></a><h1 class="section">Epis</h1>
+<a id="lab1062"></a><h2 class="section">Contents</h2>
 
 <ul class="doclist">
 <li> Definition of Epis
@@ -63,7 +63,7 @@ More proofs/definitions about epi can be found in EpiFacts
 </div>
 
 <div class="doc">
-<a id="lab1038"></a><h1 class="section">Definition of Epis</h1>
+<a id="lab1063"></a><h1 class="section">Definition of Epis</h1>
 
 </div>
 <div class="code">
@@ -188,7 +188,7 @@ If precomposition of g with f is an epi, then g is an epi.
 &nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="isEpi_precomp" class="idref" href="#isEpi_precomp"><span class="id" title="definition">isEpi_precomp</span></a> {<a id="x:52" class="idref" href="#x:52"><span class="id" title="binder">x</span></a> <a id="y:53" class="idref" href="#y:53"><span class="id" title="binder">y</span></a> <a id="z:54" class="idref" href="#z:54"><span class="id" title="binder">z</span></a> : <a class="idref" href="UniMath.CategoryTheory.Epis.html#def_epi.C"><span class="id" title="variable">C</span></a>} (<a id="f:55" class="idref" href="#f:55"><span class="id" title="binder">f</span></a> : <a class="idref" href="UniMath.CategoryTheory.Epis.html#x:52"><span class="id" title="variable">x</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#::cat:x_'--&gt;'_x"><span class="id" title="notation">--&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#y:53"><span class="id" title="variable">y</span></a>) (<a id="g:56" class="idref" href="#g:56"><span class="id" title="binder">g</span></a> : <a class="idref" href="UniMath.CategoryTheory.Epis.html#y:53"><span class="id" title="variable">y</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#::cat:x_'--&gt;'_x"><span class="id" title="notation">--&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#z:54"><span class="id" title="variable">z</span></a>) : <a class="idref" href="UniMath.CategoryTheory.Epis.html#isEpi"><span class="id" title="definition">isEpi</span></a> (<a class="idref" href="UniMath.CategoryTheory.Epis.html#f:55"><span class="id" title="variable">f</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#g:56"><span class="id" title="variable">g</span></a>) <a class="idref" href="UniMath.Foundations.Init.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#isEpi"><span class="id" title="definition">isEpi</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#g:56"><span class="id" title="variable">g</span></a>.<br/>
 &nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span>. <span class="id" title="tactic">intros</span> <span class="id" title="var">w</span> φ ψ <span class="id" title="var">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="g':58" class="idref" href="#g':58"><span class="id" title="binder">g'</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <span class="id" title="var">f</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#g':57"><span class="id" title="variable">g'</span></a>)) <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="g':57" class="idref" href="#g':57"><span class="id" title="binder"><span id="g':58" class="id">g'</span></span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <span class="id" title="var">f</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <a class="idref" href="UniMath.CategoryTheory.Epis.html#g':57"><span class="id" title="variable">g'</span></a>)) <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="var">X</span> <span class="id" title="var">w</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">H</span>).<br/>
 </div>
@@ -239,7 +239,7 @@ Transport of isEpi
 </div>
 
 <div class="doc">
-<a id="lab1039"></a><h1 class="section">Construction of the subcategory consisting of all epis.</h1>
+<a id="lab1064"></a><h1 class="section">Construction of the subcategory consisting of all epis.</h1>
 
 </div>
 <div class="code">
@@ -285,7 +285,7 @@ Transport of isEpi
 </div>
 
 <div class="doc">
-<a id="lab1040"></a><h1 class="section">In functor categories epis can be constructed from pointwise epis</h1>
+<a id="lab1065"></a><h1 class="section">In functor categories epis can be constructed from pointwise epis</h1>
 
 </div>
 <div class="code">

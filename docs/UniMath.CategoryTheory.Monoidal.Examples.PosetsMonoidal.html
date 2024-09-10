@@ -22,17 +22,29 @@
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.MoreFoundations.All.html#"><span class="id" title="library">UniMath.MoreFoundations.All</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Categories</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.exponentials.html#"><span class="id" title="library">UniMath.CategoryTheory.exponentials</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Structures.CartesianStructure.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Structures.CartesianStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Structures.StructureLimitsAndColimits.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Structures.StructureLimitsAndColimits</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Structures.StructuresSmashProduct.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Structures.StructuresSmashProduct</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.PointedPosetStrict.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Examples.PointedPosetStrict</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Categories.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Categories</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Structure.Cartesian.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Cartesian</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Structure.Symmetric.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Symmetric</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Structure.Closed.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Closed</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.CartesianMonoidal.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Examples.CartesianMonoidal</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SmashProductMonoidal.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.Examples.SmashProductMonoidal</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.CategoryOfPosets.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Examples.CategoryOfPosets</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.binproducts.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span></a>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.terminal.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span></a>.<br/>
 
 <br/>
+</div>
+
+<div class="doc">
+ 1. The cartesian monoidal category of posets
+ 
+</div>
+<div class="code">
 <span class="id" title="keyword">Definition</span> <a id="poset_monoidal_cat" class="idref" href="#poset_monoidal_cat"><span class="id" title="definition">poset_monoidal_cat</span></a><br/>
 &nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Monoidal.Categories.html#monoidal_cat"><span class="id" title="definition">monoidal_cat</span></a>.<br/>
 <a class="proof" href="#">Show proof.</a><br/><div class="proof">
@@ -63,6 +75,21 @@
 &nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.CategoryOfPosets.html#BinProducts_category_of_posets"><span class="id" title="definition">BinProducts_category_of_posets</span></a>.<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.CategoryOfPosets.html#Terminal_category_of_posets"><span class="id" title="definition">Terminal_category_of_posets</span></a>.<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.CategoryOfPosets.html#Exponentials_category_of_posets"><span class="id" title="definition">Exponentials_category_of_posets</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 2. The symmetric monoidal category of pointed posets
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="pointed_poset_sym_mon_closed_cat" class="idref" href="#pointed_poset_sym_mon_closed_cat"><span class="id" title="definition">pointed_poset_sym_mon_closed_cat</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Monoidal.Structure.Closed.html#sym_mon_closed_cat"><span class="id" title="definition">sym_mon_closed_cat</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SmashProductMonoidal.html#smash_product_sym_mon_closed_cat"><span class="id" title="definition">smash_product_sym_mon_closed_cat</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Examples.PointedPosetStrict.html#pointed_struct_pointed_poset_strict_with_smash_closed"><span class="id" title="definition">pointed_struct_pointed_poset_strict_with_smash_closed</span></a>.<br/>
 </div>
 </div>
 </div>

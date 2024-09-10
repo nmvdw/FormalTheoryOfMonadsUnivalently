@@ -21,8 +21,8 @@
 </div>
 
 <div class="doc">
-<a id="lab1229"></a><h1 class="section">Coequalizers defined in terms of colimits</h1>
-<a id="lab1230"></a><h2 class="section">Contents</h2>
+<a id="lab1254"></a><h1 class="section">Coequalizers defined in terms of colimits</h1>
+<a id="lab1255"></a><h2 class="section">Contents</h2>
 
 <ul class="doclist">
 <li> Definition of coequalizers
@@ -61,7 +61,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1231"></a><h1 class="section">Definition of coequalizers in terms of colimits</h1>
+<a id="lab1256"></a><h1 class="section">Definition of coequalizers in terms of colimits</h1>
 
 </div>
 <div class="code">
@@ -210,7 +210,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.PartA.html#path_to_ctr"><span class="id" title="lemma">path_to_ctr</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Combinatorics.StandardFiniteSets.html#two_rec_dep"><span class="id" title="definition">two_rec_dep</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">set</span> (<span class="id" title="var">X</span> := <a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#colimInCommutes"><span class="id" title="lemma">colimInCommutes</span></a> <span class="id" title="var">E</span> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#One"><span class="id" title="definition">One</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#Two"><span class="id" title="definition">Two</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#ii1"><span class="id" title="constructor">ii1</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#tt"><span class="id" title="constructor">tt</span></a>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="h:93" class="idref" href="#h:93"><span class="id" title="binder">h</span></a> : <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#h:92"><span class="id" title="variable">h</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">w</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="h:92" class="idref" href="#h:92"><span class="id" title="binder"><span id="h:93" class="id">h</span></span></a> : <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#h:92"><span class="id" title="variable">h</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">w</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">X</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="UniMath.Foundations.PartA.html#pathscomp0"><span class="id" title="definition">pathscomp0</span></a> (<a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!</span></a><span class="id" title="var">X</span>)); <span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">change</span> (<a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#dmor"><span class="id" title="definition">dmor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="keyword">with</span> <span class="id" title="var">f</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">change</span> (<a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#coconeIn"><span class="id" title="definition">coconeIn</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="keyword">with</span> (<span class="id" title="var">f</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">h</span>).<br/>
@@ -272,7 +272,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1232"></a><h2 class="section">Coequalizers to coequalizers</h2>
+<a id="lab1257"></a><h2 class="section">Coequalizers to coequalizers</h2>
 
 </div>
 <div class="code">
@@ -295,7 +295,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#colimIn"><span class="id" title="definition">colimIn</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Combinatorics.StandardFiniteSets.html#two_rec_dep"><span class="id" title="definition">two_rec_dep</span></a>; <span class="id" title="var">cbn</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">set</span> (<span class="id" title="var">X</span> := (<a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#coconeInCommutes"><span class="id" title="lemma">coconeInCommutes</span></a> (<a class="idref" href="UniMath.CategoryTheory.limits.graphs.colimits.html#colimCocone"><span class="id" title="definition">colimCocone</span></a> <span class="id" title="var">E</span>) <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#One"><span class="id" title="definition">One</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#Two"><span class="id" title="definition">Two</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#ii1"><span class="id" title="constructor">ii1</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#tt"><span class="id" title="constructor">tt</span></a>))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="UniMath.Foundations.PartA.html#pathscomp0"><span class="id" title="definition">pathscomp0</span></a> (<a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="h':141" class="idref" href="#h':141"><span class="id" title="binder">h'</span></a> : <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#h':140"><span class="id" title="variable">h'</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">k</span>) <span class="id" title="var">X</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="UniMath.Foundations.PartA.html#pathscomp0"><span class="id" title="definition">pathscomp0</span></a> (<a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">!</span></a> <a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.PartA.html#maponpaths"><span class="id" title="definition">maponpaths</span></a> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="h':140" class="idref" href="#h':140"><span class="id" title="binder"><span id="h':141" class="id">h'</span></span></a> : <span class="id" title="var">_</span><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.graphs.coequalizers.html#h':140"><span class="id" title="variable">h'</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#6367fc346cda33b52695f0c54f391763"><span class="id" title="notation">·</span></a> <span class="id" title="var">k</span>) <span class="id" title="var">X</span><a class="idref" href="UniMath.Foundations.PartA.html#9cb4fb5091f5f2b43def279042cc56ef"><span class="id" title="notation">)</span></a>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="UniMath.Foundations.PartA.html#pathscomp0"><span class="id" title="definition">pathscomp0</span></a> <span class="id" title="var">_</span> <span class="id" title="var">X</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#assoc"><span class="id" title="definition">assoc</span></a>. <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#cancel_precomposition"><span class="id" title="lemma">cancel_precomposition</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">kH</span>.<br/>
@@ -356,7 +356,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1233"></a><h2 class="section">Connections to other colimits</h2>
+<a id="lab1258"></a><h2 class="section">Connections to other colimits</h2>
 
 </div>
 <div class="code">
@@ -374,7 +374,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1234"></a><h1 class="section">Definitions coincide</h1>
+<a id="lab1259"></a><h1 class="section">Definitions coincide</h1>
 
     In this section we show that the definition of coequalizer as a colimit coincides with the
     direct definition. 
@@ -389,7 +389,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1235"></a><h2 class="section">isCoequalizers</h2>
+<a id="lab1260"></a><h2 class="section">isCoequalizers</h2>
 
 </div>
 <div class="code">
@@ -430,7 +430,7 @@
 </div>
 
 <div class="doc">
-<a id="lab1236"></a><h2 class="section">Coequalizers</h2>
+<a id="lab1261"></a><h2 class="section">Coequalizers</h2>
 
 </div>
 <div class="code">
