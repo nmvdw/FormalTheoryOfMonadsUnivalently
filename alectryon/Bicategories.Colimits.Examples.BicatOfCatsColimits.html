@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html class="alectryon-standalone"><head><title>BicatOfCatsColimits.v</title><meta charset="utf-8"><meta content="Alectryon" name="generator"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="alectryon.css" rel="stylesheet"><link href="pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/IBM-type/0.5.4/css/ibm-type.min.css" integrity="sha512-sky5cf9Ts6FY1kstGOBHSybfKqdHR41M0Ldb0BjNiv3ifltoQIsg0zIaQ+wwdwgQ0w9vKFW7Js50lxH9vqNSSw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/firacode/5.2.0/fira_code.min.css" integrity="sha512-MbysAYimH1hH2xYzkkMHB6MqxBqfP0megxsCLknbYqHVwXTCg9IqHbk+ZP/vnhO8UEW6PaXAkKe2vQ+SWACxxA==" crossorigin="anonymous" /><script src="alectryon.js"></script></head><body><article class="alectryon-root alectryon-centered"><div class="alectryon-banner">Built with <a href="https://github.com/cpitclaudel/alectryon/">Alectryon</a>, running Coq+SerAPI v8.19.0+0.19.3. Bubbles (<span class="alectryon-bubble"></span>) indicate interactive fragments: hover for details, tap to reveal contents. Use <kbd>Ctrl+↑</kbd> <kbd>Ctrl+↓</kbd> to navigate, <kbd>Ctrl+🖱️</kbd> to focus. On Mac, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>.</div><pre class="alectryon-io highlight"><!-- Generator: Alectryon --><span class="alectryon-sentence"><span class="alectryon-input">#[<span class="kn">global</span>] <span class="kn">Unset</span> <span class="kn">Universe</span> <span class="nf">Checking</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(********************************************************************</span>
+
+<span class="sd"> Colimits in the bicategory of categories</span>
+
+<span class="sd"> Contents</span>
+<span class="sd"> 1. Kleisli objects</span>
+
+<span class="sd"> ********************************************************************)</span>
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk0" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk0"><span class="kn">Require Import</span> UniMath.Foundations.All.</label><small class="alectryon-output"><div><div class="alectryon-messages"><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ + _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ - _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ * _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ = _&quot;</span> was already used <span class="kr">in</span> scope type_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt;-&gt; _&quot;</span> was already used <span class="kr">in</span> scope
+type_scope. [notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &gt; _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt; _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt;= _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &gt;= _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk1" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk1"><span class="kn">Require Import</span> UniMath.MoreFoundations.All.</label><small class="alectryon-output"><div><div class="alectryon-messages"><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ ≠ _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ ≠ _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Categories.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Functors.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.NaturalTransformations.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Isos.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Univalence.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Monads.Monads.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Monads.KleisliCategory.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.DisplayedCats.Core.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Bicat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Import</span> Bicat.Notations.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.DisplayedBicats.DispBicat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Import</span> DispBicat.Notations.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.DisplayedBicats.Examples.MonadsLax.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Examples.BicatOfCats.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Examples.OpMorBicat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Monads.Examples.MonadsInBicatOfCats.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Monads.Examples.MonadsInOp1Bicat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Colimits.KleisliObjects.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Local</span> <span class="kn">Open Scope</span> cat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(**</span>
+<span class="sd"> 1. Kleisli objects</span>
+<span class="sd"> *)</span>
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Section</span> <span class="nf">KleisliCategoryUMP</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Context</span> (<span class="nv">m</span> : mnd (op1_bicat bicat_of_cats)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Let</span> <span class="nf">C</span> : category := ob_of_mnd m.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Let</span> <span class="nf">M</span> : Monad C := mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2"><span class="kn">Definition</span> <span class="nf">bicat_of_cats_has_kleisli_cocone</span>
+    : kleisli_cocone m.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone m</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone m</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk4" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk4">use make_kleisli_cocone.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">bicat_of_cats</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk5" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk5"><hr></label><div class="goal-conclusion">bicat_of_cats ⟦ ob_of_mnd m, <span class="nl">?x</span> ⟧</div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk6" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk6"><hr></label><div class="goal-conclusion">endo_of_mnd m · <span class="nl">?f</span> ==&gt; <span class="nl">?f</span></div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk7" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk7"><hr></label><div class="goal-conclusion">(unit_of_mnd m ▹ <span class="nl">?f</span>) • <span class="nl">?γ</span> = lunitor <span class="nl">?f</span></div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk8" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk8"><hr></label><div class="goal-conclusion">(rassociator (endo_of_mnd m) (endo_of_mnd m) <span class="nl">?f</span>
+ • (endo_of_mnd m ◃ <span class="nl">?γ</span>)) • <span class="nl">?γ</span> =
+(mult_of_mnd m ▹ <span class="nl">?f</span>) • <span class="nl">?γ</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk9" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk9">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">bicat_of_cats</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (Kleisli_cat_monad M).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chka" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chka">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">bicat_of_cats ⟦ ob_of_mnd m, Kleisli_cat_monad M ⟧</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (Left_Kleisli_functor M).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chkb" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chkb">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">endo_of_mnd m · Left_Kleisli_functor M ==&gt;
+Left_Kleisli_functor M</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (kleisli_monad_nat_trans M).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chkc" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chkc">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(unit_of_mnd m ▹ Left_Kleisli_functor M)
+• kleisli_monad_nat_trans M =
+lunitor (Left_Kleisli_functor M)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kp">abstract</span>
+        (use nat_trans_eq ; [ <span class="nb">apply</span> homset_property | ] ; <span class="nb">cbn</span> ;
+         <span class="nb">intro</span> x ;
+         <span class="bp">exact</span> (η_η_bind M x)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chkd" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chkd">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(rassociator (endo_of_mnd m) (endo_of_mnd m)
+   (Left_Kleisli_functor M)
+ • (endo_of_mnd m ◃ kleisli_monad_nat_trans M))
+• kleisli_monad_nat_trans M =
+(mult_of_mnd m ▹ Left_Kleisli_functor M)
+• kleisli_monad_nat_trans M</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kp">abstract</span>
+        (use nat_trans_eq ; [ <span class="nb">apply</span> homset_property | ] ; <span class="nb">cbn</span> ;
+         <span class="nb">intro</span> x ;
+         <span class="bp">exact</span> (η_bind_bind M x)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chke" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chke"><span class="kn">Definition</span> <span class="nf">bicat_of_cats_has_kleisli_ump_1</span>
+    : has_kleisli_ump_1 m bicat_of_cats_has_kleisli_cocone.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli_ump_1 m bicat_of_cats_has_kleisli_cocone</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chkf" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chkf"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli_ump_1 m bicat_of_cats_has_kleisli_cocone</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk10" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk10"><span class="nb">intro</span> q.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk11" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk11"><span class="nb">pose</span> (F := mor_of_kleisli_cocone _ q).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk12" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk12"><span class="nb">pose</span> (γ := cell_of_kleisli_cocone _ q).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk13" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk13"><span class="nb">pose</span> (p₁ := nat_trans_eq_pointwise (kleisli_cocone_unit _ q)).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk14" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk14"><span class="nb">assert</span> (p₂ : ∏ (x : C), pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : C,
+pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk15" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk15"><hr></label><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk16" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk16">{</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : C,
+pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk17" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk17"><span class="nb">intro</span> x.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk18" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk18"><span class="nb">pose</span> (p₂ := nat_trans_eq_pointwise (kleisli_cocone_mult _ q) x).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>p₂</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_mult m q) x</span></span><span class="hyp-type"><b>: </b><span>((rassociator (endo_of_mnd m) (endo_of_mnd m)
+    (mor_of_kleisli_cocone m q)
+  • (endo_of_mnd m ◃ cell_of_kleisli_cocone m q))
+ • cell_of_kleisli_cocone m q) x =
+((mult_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk19" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk19"><span class="nb">cbn</span> <span class="kr">in</span> p₂.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>p₂</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_mult m q) x</span></span><span class="hyp-type"><b>: </b><span>id₁
+  (mor_of_kleisli_cocone m q
+     (endo_of_mnd m (endo_of_mnd m x)))
+· pr1 (cell_of_kleisli_cocone m q)
+    (pr1 (endo_of_mnd m) x)
+· cell_of_kleisli_cocone m q x =
+# (pr1 (mor_of_kleisli_cocone m q))
+  (pr1 (mult_of_mnd m) x)
+· cell_of_kleisli_cocone m q x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk1a" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk1a"><span class="nb">rewrite</span> !id_left <span class="kr">in</span> p₂.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>pr1 (cell_of_kleisli_cocone m q)
+  (pr1 (endo_of_mnd m) x)
+· cell_of_kleisli_cocone m q x =
+# (pr1 (mor_of_kleisli_cocone m q))
+  (pr1 (mult_of_mnd m) x)
+· cell_of_kleisli_cocone m q x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 γ (M x) · pr1 γ x = # (pr1 F) (μ M x) · pr1 γ x</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> p₂.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk1b" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk1b">}</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone_mor m bicat_of_cats_has_kleisli_cocone
+  q</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk1c" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk1c">use make_kleisli_cocone_mor.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone, q ⟧</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk1d" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk1d"><hr></label><div class="goal-conclusion">mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · <span class="nl">?f</span> ==&gt;
+mor_of_kleisli_cocone m q</div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk1e" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk1e"><hr></label><div class="goal-conclusion">(endo_of_mnd m ◃ <span class="nl">?α</span>) • cell_of_kleisli_cocone m q =
+(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) <span class="nl">?f</span>
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ <span class="nl">?f</span>)) • <span class="nl">?α</span></div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk1f" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk1f"><hr></label><div class="goal-conclusion">is_invertible_2cell <span class="nl">?α</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk20" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk20">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone, q ⟧</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (functor_from_kleisli_cat_monad M F γ p₁ p₂).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk21" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk21">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone
+· functor_from_kleisli_cat_monad M F γ p₁ p₂ ==&gt;
+mor_of_kleisli_cocone m q</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (functor_from_kleisli_cat_monad_nat_trans M F γ p₁ p₂).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk22" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk22">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(endo_of_mnd m
+ ◃ functor_from_kleisli_cat_monad_nat_trans M F γ p₁
+     p₂) • cell_of_kleisli_cocone m q =
+(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone)
+   (functor_from_kleisli_cat_monad M F γ p₁ p₂)
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone
+    ▹ functor_from_kleisli_cat_monad M F γ p₁ p₂))
+• functor_from_kleisli_cat_monad_nat_trans M F γ p₁ p₂</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kp">abstract</span>
+        (use nat_trans_eq ; [ <span class="nb">apply</span> homset_property | ] ;
+         <span class="nb">intro</span> x ; <span class="nb">cbn</span> ;
+         <span class="nb">rewrite</span> functor_id ;
+         <span class="nb">rewrite</span> !id_left, id_right ;
+         <span class="nb">apply</span> idpath).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk23" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk23">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell
+  (functor_from_kleisli_cat_monad_nat_trans M F γ p₁
+     p₂)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk24" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk24">use is_nat_z_iso_to_is_invertible_2cell.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_nat_z_iso
+  (pr1
+     (functor_from_kleisli_cat_monad_nat_trans M F γ
+        p₁ p₂))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk25" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk25"><span class="nb">intro</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span>kleisli_cocone m</span></span></span><br><span><var>F</var><span><span class="hyp-body"><b>:= </b><span>mor_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ ob_of_mnd m, q ⟧</span></span></span></span><br><span><var>γ</var><span><span class="hyp-body"><b>:= </b><span>cell_of_kleisli_cocone m q</span></span><span class="hyp-type"><b>: </b><span>endo_of_mnd m · mor_of_kleisli_cocone m q ==&gt;
+mor_of_kleisli_cocone m q</span></span></span></span><br><span><var>p₁</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise (kleisli_cocone_unit m q)</span></span><span class="hyp-type"><b>: </b><span>∏ x : ob_of_mnd m,
+((unit_of_mnd m ▹ mor_of_kleisli_cocone m q)
+ • cell_of_kleisli_cocone m q) x =
+lunitor (mor_of_kleisli_cocone m q) x</span></span></span></span><br><span><var>p₂</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+pr1 γ (M x) · pr1 γ x =
+# (pr1 F) (μ M x) · pr1 γ x</span></span></span><br><span><var>c</var><span class="hyp-type"><b>: </b><span>ob_of_mnd m</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_z_isomorphism
+  (pr1
+     (functor_from_kleisli_cat_monad_nat_trans M F γ
+        p₁ p₂) c)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> is_z_isomorphism_identity.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk26" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk26"><span class="kn">Definition</span> <span class="nf">bicat_of_cats_has_kleisli_ump_2</span>
+    : has_kleisli_ump_2 m bicat_of_cats_has_kleisli_cocone.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli_ump_2 m bicat_of_cats_has_kleisli_cocone</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk27" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk27"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli_ump_2 m bicat_of_cats_has_kleisli_cocone</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk28" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk28"><span class="nb">intros</span> C&#39; G₁ G₂ α p.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"><span class="kr">∃</span>! β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk29" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk29"><span class="nb">assert</span> (p&#39; : ∏ (x : C),
+                 # (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x
+                 =
+                 pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk2a" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk2a"><hr></label><div class="goal-conclusion"><span class="kr">∃</span>! β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2b" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2b">{</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2c" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2c"><span class="nb">intro</span> x.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"># (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2d" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2d"><span class="nb">pose</span> (q := nat_trans_eq_pointwise p x).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>q</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise p x</span></span><span class="hyp-type"><b>: </b><span>((lassociator (endo_of_mnd m)
+    (mor_of_kleisli_cocone m
+       bicat_of_cats_has_kleisli_cocone) G₁
+  • (cell_of_kleisli_cocone m
+       bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α)
+  x =
+(((endo_of_mnd m ◃ α)
+  • lassociator (endo_of_mnd m)
+      (mor_of_kleisli_cocone m
+         bicat_of_cats_has_kleisli_cocone) G₂)
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₂)) x</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"># (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2e" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2e"><span class="nb">cbn</span> <span class="kr">in</span> q.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>q</var><span><span class="hyp-body"><b>:= </b><span>nat_trans_eq_pointwise p x</span></span><span class="hyp-type"><b>: </b><span>id₁ (G₁ (endo_of_mnd m x))
+· # (pr1 G₁) (id₁ (endo_of_mnd m x)) · α x =
+pr1 α (pr1 (endo_of_mnd m) x)
+· id₁ (G₂ (endo_of_mnd m x))
+· # (pr1 G₂) (id₁ (endo_of_mnd m x))</span></span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"># (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk2f" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk2f"><span class="nb">rewrite</span> !id_left, !id_right <span class="kr">in</span> q.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>C</span></span></span><br><span><var>q</var><span class="hyp-type"><b>: </b><span># (pr1 G₁) (id₁ (endo_of_mnd m x)) · α x =
+pr1 α (pr1 (endo_of_mnd m) x)
+· # (pr1 G₂) (id₁ (endo_of_mnd m x))</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"># (pr1 G₁) (kleisli_monad_nat_trans M x) · pr1 α x =
+pr1 α (M x) · # (pr1 G₂) (kleisli_monad_nat_trans M x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> q.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk30" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk30">}</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion"><span class="kr">∃</span>! β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk31" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk31">use iscontraprop1.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">isaprop
+  (∑ β : G₁ ==&gt; G₂,
+   mor_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ◃ β = α)</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk32" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk32"><hr></label><div class="goal-conclusion">∑ β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk33" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk33">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">isaprop
+  (∑ β : G₁ ==&gt; G₂,
+   mor_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ◃ β = α)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk34" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk34">use invproofirrelevance.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">isProofIrrelevant
+  (∑ β : G₁ ==&gt; G₂,
+   mor_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ◃ β = α)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk35" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk35"><span class="nb">intros</span> β₁ β₂.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br><span><var>β₁, β₂</var><span class="hyp-type"><b>: </b><span>∑ β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">β₁ = β₂</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk36" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk36">use subtypePath ; [ <span class="nb">intro</span> ; <span class="nb">apply</span> cellset_property | ].</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br><span><var>β₁, β₂</var><span class="hyp-type"><b>: </b><span>∑ β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 β₁ = pr1 β₂</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (nat_trans_from_kleisli_cat_monad_unique M α (pr2 β₁) (pr2 β₂)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk37" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk37">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∑ β : G₁ ==&gt; G₂,
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone ◃ β = α</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk38" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk38"><span class="nb">simple refine</span> (_ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">G₁ ==&gt; G₂</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk39" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk39"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">β</span> : G₁ ==&gt; G₂,
+ mor_of_kleisli_cocone m
+   bicat_of_cats_has_kleisli_cocone ◃ β = α) <span class="nl">?pr1</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3a" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3a">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">G₁ ==&gt; G₂</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (nat_trans_from_kleisli_cat_monad M α p&#39;).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3b" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3b">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br><span><var>C</var><span><span class="hyp-body"><b>:= </b><span>ob_of_mnd m</span></span><span class="hyp-type"><b>: </b><span>category</span></span></span></span><br><span><var>M</var><span><span class="hyp-body"><b>:= </b><span>mnd_bicat_of_cats_to_Monad (mnd_op1_to_mnd m)</span></span><span class="hyp-type"><b>: </b><span>Monad C</span></span></span></span><br><span><var>C'</var><span class="hyp-type"><b>: </b><span>bicat_of_cats</span></span></span><br><span><var>G₁, G₂</var><span class="hyp-type"><b>: </b><span>bicat_of_cats ⟦ bicat_of_cats_has_kleisli_cocone,
+C&#39; ⟧</span></span></span><br><span><var>α</var><span class="hyp-type"><b>: </b><span>mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₁ ==&gt;
+mor_of_kleisli_cocone m
+  bicat_of_cats_has_kleisli_cocone · G₂</span></span></span><br><span><var>p</var><span class="hyp-type"><b>: </b><span>(lassociator (endo_of_mnd m)
+   (mor_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone) G₁
+ • (cell_of_kleisli_cocone m
+      bicat_of_cats_has_kleisli_cocone ▹ G₁)) • α =
+((endo_of_mnd m ◃ α)
+ • lassociator (endo_of_mnd m)
+     (mor_of_kleisli_cocone m
+        bicat_of_cats_has_kleisli_cocone) G₂)
+• (cell_of_kleisli_cocone m
+     bicat_of_cats_has_kleisli_cocone ▹ G₂)</span></span></span><br><span><var>p'</var><span class="hyp-type"><b>: </b><span>∏ x : C,
+# (pr1 G₁) (kleisli_monad_nat_trans M x)
+· pr1 α x =
+pr1 α (M x)
+· # (pr1 G₂) (kleisli_monad_nat_trans M x)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">β</span> : G₁ ==&gt; G₂,
+ mor_of_kleisli_cocone m
+   bicat_of_cats_has_kleisli_cocone ◃ β = α)
+  (nat_trans_from_kleisli_cat_monad M α p&#39;)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (pre_whisker_nat_trans_from_kleisli_cat_monad M α p&#39;).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">End</span> <span class="nf">KleisliCategoryUMP</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3c" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3c"><span class="kn">Definition</span> <span class="nf">bicat_of_cats_has_kleisli</span>
+  : has_kleisli bicat_of_cats.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli bicat_of_cats</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3d" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3d"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli bicat_of_cats</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3e" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3e"><span class="nb">intro</span> m.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∑ k : kleisli_cocone m, has_kleisli_ump m k</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk3f" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk3f"><span class="nb">simple refine</span> (_ ,, _ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone m</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk40" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk40"><hr></label><div class="goal-conclusion">has_kleisli_ump_1 m <span class="nl">?pr1</span></div></blockquote><input class="alectryon-extra-goal-toggle" id="BicatOfCatsColimits-v-chk41" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><label class="goal-separator" for="BicatOfCatsColimits-v-chk41"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">_</span> : has_kleisli_ump_1 m <span class="nl">?pr1</span>,
+ has_kleisli_ump_2 m <span class="nl">?pr1</span>) <span class="nl">?pr10</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk42" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk42">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">kleisli_cocone m</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (bicat_of_cats_has_kleisli_cocone m).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk43" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk43">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">has_kleisli_ump_1 m
+  (bicat_of_cats_has_kleisli_cocone m)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (bicat_of_cats_has_kleisli_ump_1 m).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="BicatOfCatsColimits-v-chk44" style="display: none" type="checkbox"><label class="alectryon-input" for="BicatOfCatsColimits-v-chk44">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>m</var><span class="hyp-type"><b>: </b><span>mnd (op1_bicat bicat_of_cats)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">_</span> : has_kleisli_ump_1 m
+         (bicat_of_cats_has_kleisli_cocone m),
+ has_kleisli_ump_2 m
+   (bicat_of_cats_has_kleisli_cocone m))
+  (bicat_of_cats_has_kleisli_ump_1 m)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (bicat_of_cats_has_kleisli_ump_2 m).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span></pre></article></body></html>

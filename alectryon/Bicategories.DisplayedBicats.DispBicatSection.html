@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html class="alectryon-standalone"><head><title>DispBicatSection.v</title><meta charset="utf-8"><meta content="Alectryon" name="generator"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="alectryon.css" rel="stylesheet"><link href="pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/IBM-type/0.5.4/css/ibm-type.min.css" integrity="sha512-sky5cf9Ts6FY1kstGOBHSybfKqdHR41M0Ldb0BjNiv3ifltoQIsg0zIaQ+wwdwgQ0w9vKFW7Js50lxH9vqNSSw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/firacode/5.2.0/fira_code.min.css" integrity="sha512-MbysAYimH1hH2xYzkkMHB6MqxBqfP0megxsCLknbYqHVwXTCg9IqHbk+ZP/vnhO8UEW6PaXAkKe2vQ+SWACxxA==" crossorigin="anonymous" /><script src="alectryon.js"></script></head><body><article class="alectryon-root alectryon-centered"><div class="alectryon-banner">Built with <a href="https://github.com/cpitclaudel/alectryon/">Alectryon</a>, running Coq+SerAPI v8.19.0+0.19.3. Bubbles (<span class="alectryon-bubble"></span>) indicate interactive fragments: hover for details, tap to reveal contents. Use <kbd>Ctrl+↑</kbd> <kbd>Ctrl+↓</kbd> to navigate, <kbd>Ctrl+🖱️</kbd> to focus. On Mac, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>.</div><pre class="alectryon-io highlight"><!-- Generator: Alectryon --><span class="alectryon-sentence"><span class="alectryon-input">#[<span class="kn">global</span>] <span class="kn">Unset</span> <span class="kn">Universe</span> <span class="nf">Checking</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(*******************************************************************************</span>
+
+<span class="sd"> Sections of displayed bicategories</span>
+
+<span class="sd"> Contents:</span>
+<span class="sd"> 1. Definition of a section</span>
+<span class="sd"> 2. Builder for locally propositional/groupoidal displayed bicategories</span>
+<span class="sd"> 3. Every section gives a pseudofunctor from the base to the total bicategory</span>
+
+<span class="sd"> *******************************************************************************)</span>
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk0" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk0"><span class="kn">Require Import</span> UniMath.Foundations.All.</label><small class="alectryon-output"><div><div class="alectryon-messages"><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ + _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ - _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ * _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ = _&quot;</span> was already used <span class="kr">in</span> scope type_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt;-&gt; _&quot;</span> was already used <span class="kr">in</span> scope
+type_scope. [notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &gt; _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt; _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &lt;= _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ &gt;= _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1"><span class="kn">Require Import</span> UniMath.MoreFoundations.All.</label><small class="alectryon-output"><div><div class="alectryon-messages"><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ ≠ _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote><blockquote class="alectryon-message"><span class="kn">Notation</span> <span class="s2">&quot;_ ≠ _&quot;</span> was already used <span class="kr">in</span> scope nat_scope.
+[notation-overridden,parsing,default]</blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Categories.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Isos.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.Core.Functors.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.CategoryTheory.DisplayedCats.Core.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Bicat.</span><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Import</span> Bicat.Notations.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.BicategoryLaws.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Invertible_2cells.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.Core.Unitors.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.DisplayedBicats.DispBicat.</span><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Import</span> DispBicat.Notations.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.DisplayedBicats.DispInvertibles.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.PseudoFunctors.Display.PseudoFunctorBicat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Require Import</span> UniMath.Bicategories.PseudoFunctors.PseudoFunctor.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Local</span> <span class="kn">Open Scope</span> cat.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(**</span>
+<span class="sd"> 1. Definition of a section</span>
+<span class="sd"> *)</span>
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_data</span>
+           {<span class="nv">B</span> : bicat}
+           (<span class="nv">D</span> : disp_bicat B)
+  : UU
+  := ∑ (s_ob : ∏ (x : B), D x)
+       (s_mor : ∏ (x y : B) (f : x --&gt; y), s_ob x --&gt;[ f ] s_ob y),
+     (∏ (x y : B)
+        (f g : x --&gt; y)
+        (τ : f ==&gt; g),
+      s_mor _ _ f ==&gt;[ τ ] s_mor _ _ g)
+     ×
+     (∏ (x : B),
+      disp_invertible_2cell
+        (id2_invertible_2cell _)
+        (id_disp _)
+        (s_mor _ _ (id₁ x)))
+     ×
+     (∏ (x y z : B)
+        (f : x --&gt; y)
+        (g : y --&gt; z),
+      disp_invertible_2cell
+        (id2_invertible_2cell _)
+        (s_mor _ _ f ;; s_mor _ _ g)
+        (s_mor _ _ (f · g))).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Section</span> <span class="nf">SectionDataProjections</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Context</span> {<span class="nv">B</span> : bicat}
+          {<span class="nv">D</span> : disp_bicat B}
+          (<span class="nv">s</span> : section_disp_bicat_data D).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_on_ob</span>
+             (<span class="nv">x</span> : B)
+    : D x
+    := pr1 s x.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_on_mor</span>
+             {<span class="nv">x</span> <span class="nv">y</span> : B}
+             (<span class="nv">f</span> : x --&gt; y)
+    : section_on_ob x --&gt;[ f ] section_on_ob y
+    := pr12 s _ _ f.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_on_cell</span>
+             {<span class="nv">x</span> <span class="nv">y</span> : B}
+             {<span class="nv">f</span> <span class="nv">g</span> : x --&gt; y}
+             (<span class="nv">τ</span> : f ==&gt; g)
+    : section_on_mor f ==&gt;[ τ ] section_on_mor g
+    := pr122 s _ _ _ _ τ.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_on_id</span>
+             (<span class="nv">x</span> : B)
+    : disp_invertible_2cell
+        (id2_invertible_2cell _)
+        (id_disp _)
+        (section_on_mor (id₁ x))
+    := pr1 (pr222 s) x.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_on_comp</span>
+             {<span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span> : B}
+             (<span class="nv">f</span> : x --&gt; y)
+             (<span class="nv">g</span> : y --&gt; z)
+    : disp_invertible_2cell
+        (id2_invertible_2cell _)
+        (section_on_mor f ;; section_on_mor g)
+        (section_on_mor (f · g))
+    := pr2 (pr222 s) _ _ _ f g.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">End</span> <span class="nf">SectionDataProjections</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_id</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y : B) (f : x --&gt; y),
+     section_on_cell s (id₂ f) = disp_id2 (section_on_mor s f).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_comp</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y : B) (f g h : x --&gt; y) (τ : f ==&gt; g) (θ : g ==&gt; h),
+     section_on_cell s (τ • θ)
+     =
+     section_on_cell s τ •• section_on_cell s θ.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk2" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk2"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lunitor_base</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">x</span> <span class="nv">y</span> : B}
+           (<span class="nv">f</span> : x --&gt; y)
+  : lunitor f
+    =
+    ((id₂ _ ▹ f) • id₂ _) • lunitor f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lunitor f =
+((id₂ (id₁ x) ▹ f) • id₂ (id₁ x · f)) • lunitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lunitor f =
+((id₂ (id₁ x) ▹ f) • id₂ (id₁ x · f)) • lunitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4"><span class="nb">rewrite</span> id2_rwhisker.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lunitor f =
+(id₂ (id₁ x · f) • id₂ (id₁ x · f)) • lunitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5"><span class="nb">rewrite</span> !id2_left.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lunitor f = lunitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> idpath.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lunitor</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y : B)
+       (f : x --&gt; y),
+     transportf
+       (<span class="kr">λ</span> <span class="nv">z</span>, _ ==&gt;[ z ] _)
+       (section_disp_bicat_laws_lunitor_base f)
+       (disp_lunitor (section_on_mor s f))
+     =
+     ((pr1 (section_on_id s _) ▹▹ section_on_mor s f)
+     •• pr1 (section_on_comp s (id₁ _) f))
+     •• section_on_cell s (lunitor f).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk6" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk6"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_runitor_base</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">x</span> <span class="nv">y</span> : B}
+           (<span class="nv">f</span> : x --&gt; y)
+  : runitor f
+    =
+    ((f ◃ id₂ _) • id₂ _) • runitor f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">runitor f =
+((f ◃ id₂ (id₁ y)) • id₂ (f · id₁ y)) • runitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk7" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk7"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">runitor f =
+((f ◃ id₂ (id₁ y)) • id₂ (f · id₁ y)) • runitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk8" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk8"><span class="nb">rewrite</span> lwhisker_id2.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">runitor f =
+(id₂ (f · id₁ y) • id₂ (f · id₁ y)) • runitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk9" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk9"><span class="nb">rewrite</span> !id2_left.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">runitor f = runitor f</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> idpath.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_runitor</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y : B)
+       (f : x --&gt; y),
+     transportf
+       (<span class="kr">λ</span> <span class="nv">z</span>, _ ==&gt;[ z ] _)
+       (section_disp_bicat_laws_runitor_base f)
+       (disp_runitor (section_on_mor s f))
+     =
+     ((section_on_mor s f ◃◃ pr1 (section_on_id s _))
+     •• pr1 (section_on_comp s f (id₁ _)))
+     •• section_on_cell s (runitor f).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chka" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chka"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lassociator_base</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">w</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span> : B}
+           (<span class="nv">f</span> : w --&gt; x)
+           (<span class="nv">g</span> : x --&gt; y)
+           (<span class="nv">h</span> : y --&gt; z)
+  : ((f ◃ id₂ _) • id₂ _) • lassociator f g h
+    =
+    (lassociator f g h • (id₂ _ ▹ h)) • id₂ _.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>w, x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ w, x ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+• lassociator f g h =
+(lassociator f g h • (id₂ (f · g) ▹ h))
+• id₂ (f · g · h)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chkb" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chkb"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>w, x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ w, x ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+• lassociator f g h =
+(lassociator f g h • (id₂ (f · g) ▹ h))
+• id₂ (f · g · h)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chkc" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chkc"><span class="nb">rewrite</span> id2_rwhisker, lwhisker_id2.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>w, x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ w, x ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(id₂ (f · (g · h)) • id₂ (f · (g · h)))
+• lassociator f g h =
+(lassociator f g h • id₂ (f · g · h))
+• id₂ (f · g · h)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chkd" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chkd"><span class="nb">rewrite</span> !id2_left, !id2_right.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>w, x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ w, x ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lassociator f g h = lassociator f g h</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> idpath.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lassociator</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  := ∏ (w x y z : B)
+       (f : w --&gt; x)
+       (g : x --&gt; y)
+       (h : y --&gt; z),
+     transportf
+       (<span class="kr">λ</span> <span class="nv">z</span>, _ ==&gt;[ z ] _)
+       (section_disp_bicat_laws_lassociator_base f g h)
+       (((section_on_mor s f ◃◃ pr1 (section_on_comp s g h))
+        •• pr1 (section_on_comp s f (g · h)))
+        •• section_on_cell s (lassociator f g h))
+     =
+     (disp_lassociator (section_on_mor s f) (section_on_mor s g) (section_on_mor s h)
+     •• (pr1 (section_on_comp s f g) ▹▹ section_on_mor s h))
+     •• pr1 (section_on_comp s (f · g) h).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chke" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chke"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lwhisker_base</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span> : B}
+           (<span class="nv">f</span> : x --&gt; y)
+           {<span class="nv">g₁</span> <span class="nv">g₂</span> : y --&gt; z}
+           (<span class="nv">η</span> : g₁ ==&gt; g₂)
+  : id₂ _ • (f ◃ η) = (f ◃ η) • id₂ _.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ (f · g₁) • (f ◃ η) = (f ◃ η) • id₂ (f · g₂)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chkf" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chkf"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ (f · g₁) • (f ◃ η) = (f ◃ η) • id₂ (f · g₂)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk10" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk10"><span class="nb">rewrite</span> id2_left, id2_right.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">f ◃ η = f ◃ η</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> idpath.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_lwhisker</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y z : B)
+       (f : x --&gt; y)
+       (g₁ g₂ : y --&gt; z)
+       (η : g₁ ==&gt; g₂),
+    transportf
+       (<span class="kr">λ</span> <span class="nv">z</span>, _ ==&gt;[ z ] _)
+       (section_disp_bicat_laws_lwhisker_base f η)
+       (pr1 (section_on_comp s f g₁) •• section_on_cell s (f ◃ η))
+     =
+     (section_on_mor s f ◃◃ section_on_cell s η) •• pr1 (section_on_comp s f g₂).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk11" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk11"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_rwhisker_base</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span> : B}
+           {<span class="nv">f₁</span> <span class="nv">f₂</span> : x --&gt; y}
+           (<span class="nv">g</span> : y --&gt; z)
+           (<span class="nv">η</span> : f₁ ==&gt; f₂)
+  : id₂ _ • (η ▹ g) = (η ▹ g) • id₂ _.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ (f₁ · g) • (η ▹ g) = (η ▹ g) • id₂ (f₂ · g)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk12" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk12"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ (f₁ · g) • (η ▹ g) = (η ▹ g) • id₂ (f₂ · g)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk13" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk13"><span class="nb">rewrite</span> id2_left, id2_right.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">η ▹ g = η ▹ g</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> idpath.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws_rwhisker</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := ∏ (x y z : B)
+       (f₁ f₂ : x --&gt; y)
+       (g : y --&gt; z)
+       (η : f₁ ==&gt; f₂),
+     transportf
+       (<span class="kr">λ</span> <span class="nv">z</span>, _ ==&gt;[ z ] _)
+       (section_disp_bicat_laws_rwhisker_base g η)
+       (pr1 (section_on_comp s f₁ g) •• section_on_cell s (η ▹ g))
+     =
+     (section_on_cell s η ▹▹ section_on_mor s g) •• pr1 (section_on_comp s f₂ g).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_laws</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat_data D)
+  : UU
+  := section_disp_bicat_laws_id s
+     ×
+     section_disp_bicat_laws_comp s
+     ×
+     section_disp_bicat_laws_lunitor s
+     ×
+     section_disp_bicat_laws_runitor s
+     ×
+     section_disp_bicat_laws_lassociator s
+     ×
+     section_disp_bicat_laws_lwhisker s
+     ×
+     section_disp_bicat_laws_rwhisker s.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat</span>
+           {<span class="nv">B</span> : bicat}
+           (<span class="nv">D</span> : disp_bicat B)
+  : UU
+  := ∑ (s : section_disp_bicat_data D), section_disp_bicat_laws s.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Coercion</span> <span class="nf">section_to_section_data</span>
+          {B : bicat}
+          {D : disp_bicat B}
+          (s : section_disp_bicat D)
+: section_disp_bicat_data D
+  := pr1 s.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_id</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_id s
+  := pr12 s.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_comp</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_comp s
+  := pr122 s.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_lunitor</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_lunitor s
+  := pr1 (pr222 s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_runitor</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_runitor s
+  := pr12 (pr222 s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_lassociator</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_lassociator s
+  := pr122 (pr222 s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_lwhisker</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_lwhisker s
+  := pr1 (pr222 (pr222 s)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Definition</span> <span class="nf">section_disp_bicat_rwhisker</span>
+           {<span class="nv">B</span> : bicat}
+           {<span class="nv">D</span> : disp_bicat B}
+           (<span class="nv">s</span> : section_disp_bicat D)
+  : section_disp_bicat_laws_rwhisker s
+  := pr2 (pr222 (pr222 s)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(**</span>
+<span class="sd"> 2. Builder for locally propositional/groupoidal displayed bicategories</span>
+<span class="sd"> *)</span>
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Section</span> <span class="nf">MakeSection</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Context</span> {<span class="nv">B</span> : bicat}
+          (<span class="nv">D</span> : disp_bicat B)
+          (<span class="nv">HD₁</span> : disp_2cells_isaprop D)
+          (<span class="nv">HD₂</span> : disp_locally_groupoid D)
+          (<span class="nv">s_ob</span> : ∏ (x : B), D x)
+          (<span class="nv">s_mor</span> : ∏ (x y : B) (f : x --&gt; y), s_ob x --&gt;[ f ] s_ob y)
+          (<span class="nv">s_cell</span> : ∏ (x y : B)
+                      (f g : x --&gt; y)
+                      (τ : f ==&gt; g),
+                    s_mor _ _ f ==&gt;[ τ ] s_mor _ _ g)
+          (<span class="nv">s_id</span> : ∏ (x : B), id_disp _ ==&gt;[ id2 _ ] s_mor _ _ (id₁ x))
+          (<span class="nv">s_comp</span> : ∏ (x y z : B)
+                      (f : x --&gt; y)
+                      (g : y --&gt; z),
+                    s_mor _ _ f ;; s_mor _ _ g
+                    ==&gt;[ id2 _ ]
+                    s_mor _ _ (f · g)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk14" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk14"><span class="kn">Definition</span> <span class="nf">make_section_disp_bicat_data</span>
+    : section_disp_bicat_data D.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_data D</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk15" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk15"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_data D</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk16" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk16"><span class="nb">simple refine</span> (s_ob ,, s_mor ,, s_cell ,, _ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : B,
+disp_invertible_2cell (id2_invertible_2cell (id₁ x))
+  (id_disp (s_ob x)) (s_mor x x (id₁ x))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk17" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk17"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">_</span> : ∏ x : B,
+       disp_invertible_2cell
+         (id2_invertible_2cell (id₁ x))
+         (id_disp (s_ob x)) 
+         (s_mor x x (id₁ x)),
+ ∏ (x y z : B) (f : B ⟦ x, y ⟧) 
+ (g : B ⟦ y, z ⟧),
+ disp_invertible_2cell (id2_invertible_2cell (f · g))
+   (s_mor x y f ;; s_mor y z g) 
+   (s_mor x z (f · g))) <span class="nl">?pr1</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk18" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk18">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ x : B,
+disp_invertible_2cell (id2_invertible_2cell (id₁ x))
+  (id_disp (s_ob x)) (s_mor x x (id₁ x))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk19" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk19"><span class="nb">intro</span> x.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">disp_invertible_2cell (id2_invertible_2cell (id₁ x))
+  (id_disp (s_ob x)) (s_mor x x (id₁ x))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1a" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1a"><span class="nb">refine</span> (s_id x ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_disp_invertible_2cell
+  (id2_invertible_2cell (id₁ x)) (s_id x)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> HD₂.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1b" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1b">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">_</span> : ∏ x : B,
+       disp_invertible_2cell
+         (id2_invertible_2cell (id₁ x))
+         (id_disp (s_ob x)) (s_mor x x (id₁ x)),
+ ∏ (x y z : B) (f : B ⟦ x, y ⟧) (g : B ⟦ y, z ⟧),
+ disp_invertible_2cell (id2_invertible_2cell (f · g))
+   (s_mor x y f ;; s_mor y z g) (s_mor x z (f · g)))
+  (<span class="kr">λ</span> <span class="nv">x</span> : B,
+   s_id x,,
+   HD₂ x x (id₁ x) (id₁ x)
+     (id2_invertible_2cell (id₁ x)) (s_ob x) (s_ob x)
+     (id_disp (s_ob x)) (s_mor x x (id₁ x)) (s_id x))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1c" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1c"><span class="nb">intros</span> x y z f g.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">disp_invertible_2cell (id2_invertible_2cell (f · g))
+  (s_mor x y f ;; s_mor y z g) (s_mor x z (f · g))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1d" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1d"><span class="nb">refine</span> (s_comp _ _ _ f g ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_disp_invertible_2cell
+  (id2_invertible_2cell (f · g)) (s_comp x y z f g)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> HD₂.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1e" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1e"><span class="kn">Definition</span> <span class="nf">make_section_disp_bicat_laws</span>
+    : section_disp_bicat_laws make_section_disp_bicat_data.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_laws make_section_disp_bicat_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk1f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk1f"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_laws make_section_disp_bicat_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kp">repeat</span> <span class="nb">split</span> ; <span class="nb">intro</span> ; <span class="nb">intros</span> ; <span class="nb">apply</span> HD₁.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk20" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk20"><span class="kn">Definition</span> <span class="nf">make_section_disp_bicat</span>
+    : section_disp_bicat D.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat D</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk21" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk21"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat D</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk22" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk22"><span class="nb">simple refine</span> (_ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_data D</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk23" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk23"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">s</span> : section_disp_bicat_data D,
+ section_disp_bicat_laws s) 
+  <span class="nl">?pr1</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk24" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk24">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_disp_bicat_data D</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> make_section_disp_bicat_data.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk25" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk25">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>HD₁</var><span class="hyp-type"><b>: </b><span>disp_2cells_isaprop D</span></span></span><br><span><var>HD₂</var><span class="hyp-type"><b>: </b><span>disp_locally_groupoid D</span></span></span><br><span><var>s_ob</var><span class="hyp-type"><b>: </b><span>∏ x : B, D x</span></span></span><br><span><var>s_mor</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f : B ⟦ x, y ⟧),
+s_ob x --&gt;[ f] s_ob y</span></span></span><br><span><var>s_cell</var><span class="hyp-type"><b>: </b><span>∏ (x y : B) (f g : B ⟦ x, y ⟧) 
+(τ : f ==&gt; g),
+s_mor x y f ==&gt;[ τ] s_mor x y g</span></span></span><br><span><var>s_id</var><span class="hyp-type"><b>: </b><span>∏ x : B,
+id_disp (s_ob x) ==&gt;[
+id₂ (id₁ x)] s_mor x x (id₁ x)</span></span></span><br><span><var>s_comp</var><span class="hyp-type"><b>: </b><span>∏ (x y z : B) (f : B ⟦ x, y ⟧)
+(g : B ⟦ y, z ⟧),
+s_mor x y f ;; s_mor y z g ==&gt;[
+id₂ (f · g)] s_mor x z (f · g)</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">s</span> : section_disp_bicat_data D,
+ section_disp_bicat_laws s)
+  make_section_disp_bicat_data</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> make_section_disp_bicat_laws.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">End</span> <span class="nf">MakeSection</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+<span class="sd">(**</span>
+<span class="sd"> 3. Every section gives a pseudofunctor from the base to the total bicategory</span>
+<span class="sd"> *)</span>
+</span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Section</span> <span class="nf">SectionToPsfunctor</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Context</span> {<span class="nv">B</span> : bicat}
+          {<span class="nv">D</span> : disp_bicat B}
+          (<span class="nv">s</span> : section_disp_bicat D).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk26" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk26"><span class="kn">Definition</span> <span class="nf">section_to_psfunctor_data</span>
+    : psfunctor_data B (total_bicat D).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_data B (total_bicat D)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk27" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk27"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_data B (total_bicat D)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk28" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk28">use make_psfunctor_data.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">B → total_bicat D</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk29" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk29"><hr></label><div class="goal-conclusion">∏ a b : B, B ⟦ a, b ⟧ → total_bicat D ⟦ <span class="nl">?F₀</span> a, <span class="nl">?F₀</span> b ⟧</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk2a" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk2a"><hr></label><div class="goal-conclusion">∏ (a b : B) (f g : B ⟦ a, b ⟧),
+f ==&gt; g → <span class="nl">?F₁</span> a b f ==&gt; <span class="nl">?F₁</span> a b g</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk2b" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk2b"><hr></label><div class="goal-conclusion">∏ a : B, id₁ (<span class="nl">?F₀</span> a) ==&gt; <span class="nl">?F₁</span> a a (id₁ a)</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk2c" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk2c"><hr></label><div class="goal-conclusion">∏ (a b c : B) (f : B ⟦ a, b ⟧) (g : B ⟦ b, c ⟧),
+<span class="nl">?F₁</span> a b f · <span class="nl">?F₁</span> b c g ==&gt; <span class="nl">?F₁</span> a c (f · g)</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk2d" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk2d">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">B → total_bicat D</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (<span class="kr">λ</span> <span class="nv">x</span>, x ,, section_on_ob s x).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk2e" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk2e">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ a b : B,
+B ⟦ a, b ⟧
+→ total_bicat D ⟦ (<span class="kr">λ</span> <span class="nv">x</span> : B, x,, section_on_ob s x) a,
+  (<span class="kr">λ</span> <span class="nv">x</span> : B, x,, section_on_ob s x) b ⟧</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (<span class="kr">λ</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">f</span>, f ,, section_on_mor s f).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk2f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk2f">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ (a b : B) (f g : B ⟦ a, b ⟧),
+f ==&gt; g
+→ (<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f0</span> : B ⟦ x, y ⟧),
+   f0,, section_on_mor s f0) a b f ==&gt;
+  (<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f0</span> : B ⟦ x, y ⟧),
+   f0,, section_on_mor s f0) a b g</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (<span class="kr">λ</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">τ</span>, τ ,, section_on_cell s τ).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk30" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk30">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ a : B,
+id₁ ((<span class="kr">λ</span> <span class="nv">x</span> : B, x,, section_on_ob s x) a) ==&gt;
+(<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f</span> : B ⟦ x, y ⟧), f,, section_on_mor s f)
+  a a (id₁ a)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (<span class="kr">λ</span> <span class="nv">x</span>, id2 _ ,, pr1 (section_on_id s x)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk31" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk31">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ (a b c : B) (f : B ⟦ a, b ⟧) (g : B ⟦ b, c ⟧),
+(<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f0</span> : B ⟦ x, y ⟧),
+ f0,, section_on_mor s f0) a b f
+· (<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f0</span> : B ⟦ x, y ⟧),
+   f0,, section_on_mor s f0) b c g ==&gt;
+(<span class="kr">λ</span> (<span class="nv">x</span> <span class="nv">y</span> : B) (<span class="nv">f0</span> : B ⟦ x, y ⟧),
+ f0,, section_on_mor s f0) a c (f · g)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (<span class="kr">λ</span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span> <span class="nv">f</span> <span class="nv">g</span>, id2 _ ,, pr1 (section_on_comp s f g)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk32" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk32"><span class="kn">Definition</span> <span class="nf">section_to_psfunctor_laws</span>
+    : psfunctor_laws section_to_psfunctor_data.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_laws section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk33" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk33"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_laws section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk34" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk34"><span class="kp">repeat</span> <span class="nb">split</span> ; <span class="nb">intro</span> ; <span class="nb">intros</span> ; <span class="nb">cbn</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ f,, section_on_cell s (id₂ f) =
+id₂ f,, disp_id2 (section_on_mor s f)</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk35" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f, g, h</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f ==&gt; g</span></span></span><br><span><var>φ</var><span class="hyp-type"><b>: </b><span>g ==&gt; h</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk35"><hr></label><div class="goal-conclusion">(η • φ),, section_on_cell s (η • φ) =
+(η • φ),, section_on_cell s η •• section_on_cell s φ</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk36" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk36"><hr></label><div class="goal-conclusion">lunitor f,, disp_lunitor (section_on_mor s f) =
+(((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+ •• pr1 (section_on_comp s (id₁ a) f))
+•• section_on_cell s (lunitor f)</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk37" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk37"><hr></label><div class="goal-conclusion">runitor f,, disp_runitor (section_on_mor s f) =
+(((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+ •• pr1 (section_on_comp s f (id₁ b)))
+•• section_on_cell s (runitor f)</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk38" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk38"><hr></label><div class="goal-conclusion">(((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+ • lassociator f g h),,
+((section_on_mor s f ◃◃ pr1 (section_on_comp s g h))
+ •• pr1 (section_on_comp s f (g · h)))
+•• section_on_cell s (lassociator f g h) =
+((lassociator f g h • (id₂ (f · g) ▹ h))
+ • id₂ (f · g · h)),,
+(disp_lassociator (section_on_mor s f)
+   (section_on_mor s g) (section_on_mor s h)
+ •• (pr1 (section_on_comp s f g) ▹▹ section_on_mor s h))
+•• pr1 (section_on_comp s (f · g) h)</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk39" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk39"><hr></label><div class="goal-conclusion">(id₂ (f · g₁) • (f ◃ η)),,
+pr1 (section_on_comp s f g₁)
+•• section_on_cell s (f ◃ η) =
+((f ◃ η) • id₂ (f · g₂)),,
+(section_on_mor s f ◃◃ section_on_cell s η)
+•• pr1 (section_on_comp s f g₂)</div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk3a" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk3a"><hr></label><div class="goal-conclusion">(id₂ (f₁ · g) • (η ▹ g)),,
+pr1 (section_on_comp s f₁ g)
+•• section_on_cell s (η ▹ g) =
+((η ▹ g) • id₂ (f₂ · g)),,
+(section_on_cell s η ▹▹ section_on_mor s g)
+•• pr1 (section_on_comp s f₂ g)</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3b" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3b">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">id₂ f,, section_on_cell s (id₂ f) =
+id₂ f,, disp_id2 (section_on_mor s f)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3c" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3c"><span class="nb">apply</span> maponpaths.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_on_cell s (id₂ f) =
+disp_id2 (section_on_mor s f)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_id s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3d" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3d">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f, g, h</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f ==&gt; g</span></span></span><br><span><var>φ</var><span class="hyp-type"><b>: </b><span>g ==&gt; h</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(η • φ),, section_on_cell s (η • φ) =
+(η • φ),, section_on_cell s η •• section_on_cell s φ</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3e" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3e"><span class="nb">apply</span> maponpaths.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f, g, h</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f ==&gt; g</span></span></span><br><span><var>φ</var><span class="hyp-type"><b>: </b><span>g ==&gt; h</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">section_on_cell s (η • φ) =
+section_on_cell s η •• section_on_cell s φ</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_comp s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk3f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk3f">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">lunitor f,, disp_lunitor (section_on_mor s f) =
+(((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+ •• pr1 (section_on_comp s (id₁ a) f))
+•• section_on_cell s (lunitor f)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk40" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk40">use total2_paths_f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 (lunitor f,, disp_lunitor (section_on_mor s f)) =
+pr1
+  ((((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+   ((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+    •• pr1 (section_on_comp s (id₁ a) f))
+   •• section_on_cell s (lunitor f))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk41" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk41"><hr></label><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (id₁ a · f,,
+            (id_disp (section_on_ob s a) ;; section_on_mor
+                                              s f)%mor_disp) ==&gt;
+         pr1 (f,, section_on_mor s f),
+   pr2
+     (id₁ a · f,,
+      (id_disp (section_on_ob s a) ;; section_on_mor s
+                                        f)%mor_disp) ==&gt;[
+   x] pr2 (f,, section_on_mor s f)) <span class="nl">?p</span>
+  (pr2 (lunitor f,, disp_lunitor (section_on_mor s f))) =
+pr2
+  ((((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+   ((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+    •• pr1 (section_on_comp s (id₁ a) f))
+   •• section_on_cell s (lunitor f))</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk42" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk42">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 (lunitor f,, disp_lunitor (section_on_mor s f)) =
+pr1
+  ((((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+   ((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+    •• pr1 (section_on_comp s (id₁ a) f))
+   •• section_on_cell s (lunitor f))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> section_disp_bicat_laws_lunitor_base.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk43" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk43">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (id₁ a · f,,
+            (id_disp (section_on_ob s a) ;; section_on_mor
+                                              s f)%mor_disp) ==&gt;
+         pr1 (f,, section_on_mor s f),
+   pr2
+     (id₁ a · f,,
+      (id_disp (section_on_ob s a) ;; section_on_mor s
+                                        f)%mor_disp) ==&gt;[
+   x] pr2 (f,, section_on_mor s f))
+  (section_disp_bicat_laws_lunitor_base f)
+  (pr2 (lunitor f,, disp_lunitor (section_on_mor s f))) =
+pr2
+  ((((id₂ (id₁ a) ▹ f) • id₂ (id₁ a · f)) • lunitor f),,
+   ((pr1 (section_on_id s a) ▹▹ section_on_mor s f)
+    •• pr1 (section_on_comp s (id₁ a) f))
+   •• section_on_cell s (lunitor f))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_lunitor s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk44" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk44">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">runitor f,, disp_runitor (section_on_mor s f) =
+(((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+ •• pr1 (section_on_comp s f (id₁ b)))
+•• section_on_cell s (runitor f)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk45" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk45">use total2_paths_f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 (runitor f,, disp_runitor (section_on_mor s f)) =
+pr1
+  ((((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+    •• pr1 (section_on_comp s f (id₁ b)))
+   •• section_on_cell s (runitor f))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk46" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk46"><hr></label><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · id₁ b,,
+            (section_on_mor s f ;; id_disp
+                                     (section_on_ob s
+                                        b))%mor_disp) ==&gt;
+         pr1 (f,, section_on_mor s f),
+   pr2
+     (f · id₁ b,,
+      (section_on_mor s f ;; id_disp
+                               (section_on_ob s b))%mor_disp) ==&gt;[
+   x] pr2 (f,, section_on_mor s f)) <span class="nl">?p</span>
+  (pr2 (runitor f,, disp_runitor (section_on_mor s f))) =
+pr2
+  ((((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+    •• pr1 (section_on_comp s f (id₁ b)))
+   •• section_on_cell s (runitor f))</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk47" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk47">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1 (runitor f,, disp_runitor (section_on_mor s f)) =
+pr1
+  ((((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+    •• pr1 (section_on_comp s f (id₁ b)))
+   •• section_on_cell s (runitor f))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> section_disp_bicat_laws_runitor_base.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk48" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk48">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · id₁ b,,
+            (section_on_mor s f ;; id_disp
+                                     (section_on_ob s
+                                        b))%mor_disp) ==&gt;
+         pr1 (f,, section_on_mor s f),
+   pr2
+     (f · id₁ b,,
+      (section_on_mor s f ;; id_disp
+                               (section_on_ob s b))%mor_disp) ==&gt;[
+   x] pr2 (f,, section_on_mor s f))
+  (section_disp_bicat_laws_runitor_base f)
+  (pr2 (runitor f,, disp_runitor (section_on_mor s f))) =
+pr2
+  ((((f ◃ id₂ (id₁ b)) • id₂ (f · id₁ b)) • runitor f),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_id s b))
+    •• pr1 (section_on_comp s f (id₁ b)))
+   •• section_on_cell s (runitor f))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_runitor s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk49" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk49">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+ • lassociator f g h),,
+((section_on_mor s f ◃◃ pr1 (section_on_comp s g h))
+ •• pr1 (section_on_comp s f (g · h)))
+•• section_on_cell s (lassociator f g h) =
+((lassociator f g h • (id₂ (f · g) ▹ h))
+ • id₂ (f · g · h)),,
+(disp_lassociator (section_on_mor s f)
+   (section_on_mor s g) (section_on_mor s h)
+ •• (pr1 (section_on_comp s f g) ▹▹ section_on_mor s h))
+•• pr1 (section_on_comp s (f · g) h)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4a" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4a">use total2_paths_f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+    • lassociator f g h),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_comp s g h))
+    •• pr1 (section_on_comp s f (g · h)))
+   •• section_on_cell s (lassociator f g h)) =
+pr1
+  (((lassociator f g h • (id₂ (f · g) ▹ h))
+    • id₂ (f · g · h)),,
+   (disp_lassociator (section_on_mor s f)
+      (section_on_mor s g) (section_on_mor s h)
+    •• (pr1 (section_on_comp s f g)
+        ▹▹ section_on_mor s h))
+   •• pr1 (section_on_comp s (f · g) h))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk4b" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk4b"><hr></label><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · (g · h),,
+            (section_on_mor s f ;; (section_on_mor s g ;; 
+                                    section_on_mor s h))%mor_disp) ==&gt;
+         pr1
+           (f · g · h,, section_on_mor s (f · g · h)),
+   pr2
+     (f · (g · h),,
+      (section_on_mor s f ;; (section_on_mor s g ;; 
+                              section_on_mor s h))%mor_disp) ==&gt;[
+   x] pr2 (f · g · h,, section_on_mor s (f · g · h)))
+  <span class="nl">?p</span>
+  (pr2
+     ((((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+       • lassociator f g h),,
+      ((section_on_mor s f
+        ◃◃ pr1 (section_on_comp s g h))
+       •• pr1 (section_on_comp s f (g · h)))
+      •• section_on_cell s (lassociator f g h))) =
+pr2
+  (((lassociator f g h • (id₂ (f · g) ▹ h))
+    • id₂ (f · g · h)),,
+   (disp_lassociator (section_on_mor s f)
+      (section_on_mor s g) (section_on_mor s h)
+    •• (pr1 (section_on_comp s f g)
+        ▹▹ section_on_mor s h))
+   •• pr1 (section_on_comp s (f · g) h))</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4c" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4c">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+    • lassociator f g h),,
+   ((section_on_mor s f ◃◃ pr1 (section_on_comp s g h))
+    •• pr1 (section_on_comp s f (g · h)))
+   •• section_on_cell s (lassociator f g h)) =
+pr1
+  (((lassociator f g h • (id₂ (f · g) ▹ h))
+    • id₂ (f · g · h)),,
+   (disp_lassociator (section_on_mor s f)
+      (section_on_mor s g) (section_on_mor s h)
+    •• (pr1 (section_on_comp s f g)
+        ▹▹ section_on_mor s h))
+   •• pr1 (section_on_comp s (f · g) h))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> section_disp_bicat_laws_lassociator_base.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4d" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4d">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c, d</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>h</var><span class="hyp-type"><b>: </b><span>B ⟦ c, d ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · (g · h),,
+            (section_on_mor s f ;; (section_on_mor s g ;; 
+                                    section_on_mor s h))%mor_disp) ==&gt;
+         pr1
+           (f · g · h,, section_on_mor s (f · g · h)),
+   pr2
+     (f · (g · h),,
+      (section_on_mor s f ;; (section_on_mor s g ;; 
+                              section_on_mor s h))%mor_disp) ==&gt;[
+   x] pr2 (f · g · h,, section_on_mor s (f · g · h)))
+  (section_disp_bicat_laws_lassociator_base f g h)
+  (pr2
+     ((((f ◃ id₂ (g · h)) • id₂ (f · (g · h)))
+       • lassociator f g h),,
+      ((section_on_mor s f
+        ◃◃ pr1 (section_on_comp s g h))
+       •• pr1 (section_on_comp s f (g · h)))
+      •• section_on_cell s (lassociator f g h))) =
+pr2
+  (((lassociator f g h • (id₂ (f · g) ▹ h))
+    • id₂ (f · g · h)),,
+   (disp_lassociator (section_on_mor s f)
+      (section_on_mor s g) (section_on_mor s h)
+    •• (pr1 (section_on_comp s f g)
+        ▹▹ section_on_mor s h))
+   •• pr1 (section_on_comp s (f · g) h))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_lassociator s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4e" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4e">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(id₂ (f · g₁) • (f ◃ η)),,
+pr1 (section_on_comp s f g₁)
+•• section_on_cell s (f ◃ η) =
+((f ◃ η) • id₂ (f · g₂)),,
+(section_on_mor s f ◃◃ section_on_cell s η)
+•• pr1 (section_on_comp s f g₂)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk4f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk4f">use total2_paths_f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((id₂ (f · g₁) • (f ◃ η)),,
+   pr1 (section_on_comp s f g₁)
+   •• section_on_cell s (f ◃ η)) =
+pr1
+  (((f ◃ η) • id₂ (f · g₂)),,
+   (section_on_mor s f ◃◃ section_on_cell s η)
+   •• pr1 (section_on_comp s f g₂))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk50" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk50"><hr></label><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · g₁,,
+            (section_on_mor s f ;; section_on_mor s g₁)%mor_disp) ==&gt;
+         pr1 (f · g₂,, section_on_mor s (f · g₂)),
+   pr2
+     (f · g₁,,
+      (section_on_mor s f ;; section_on_mor s g₁)%mor_disp) ==&gt;[
+   x] pr2 (f · g₂,, section_on_mor s (f · g₂))) <span class="nl">?p</span>
+  (pr2
+     ((id₂ (f · g₁) • (f ◃ η)),,
+      pr1 (section_on_comp s f g₁)
+      •• section_on_cell s (f ◃ η))) =
+pr2
+  (((f ◃ η) • id₂ (f · g₂)),,
+   (section_on_mor s f ◃◃ section_on_cell s η)
+   •• pr1 (section_on_comp s f g₂))</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk51" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk51">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((id₂ (f · g₁) • (f ◃ η)),,
+   pr1 (section_on_comp s f g₁)
+   •• section_on_cell s (f ◃ η)) =
+pr1
+  (((f ◃ η) • id₂ (f · g₂)),,
+   (section_on_mor s f ◃◃ section_on_cell s η)
+   •• pr1 (section_on_comp s f g₂))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> section_disp_bicat_laws_lwhisker_base.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk52" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk52">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g₁, g₂</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>g₁ ==&gt; g₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f · g₁,,
+            (section_on_mor s f ;; section_on_mor s g₁)%mor_disp) ==&gt;
+         pr1 (f · g₂,, section_on_mor s (f · g₂)),
+   pr2
+     (f · g₁,,
+      (section_on_mor s f ;; section_on_mor s g₁)%mor_disp) ==&gt;[
+   x] pr2 (f · g₂,, section_on_mor s (f · g₂)))
+  (section_disp_bicat_laws_lwhisker_base f η)
+  (pr2
+     ((id₂ (f · g₁) • (f ◃ η)),,
+      pr1 (section_on_comp s f g₁)
+      •• section_on_cell s (f ◃ η))) =
+pr2
+  (((f ◃ η) • id₂ (f · g₂)),,
+   (section_on_mor s f ◃◃ section_on_cell s η)
+   •• pr1 (section_on_comp s f g₂))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_lwhisker s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk53" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk53">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(id₂ (f₁ · g) • (η ▹ g)),,
+pr1 (section_on_comp s f₁ g)
+•• section_on_cell s (η ▹ g) =
+((η ▹ g) • id₂ (f₂ · g)),,
+(section_on_cell s η ▹▹ section_on_mor s g)
+•• pr1 (section_on_comp s f₂ g)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk54" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk54">use total2_paths_f.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((id₂ (f₁ · g) • (η ▹ g)),,
+   pr1 (section_on_comp s f₁ g)
+   •• section_on_cell s (η ▹ g)) =
+pr1
+  (((η ▹ g) • id₂ (f₂ · g)),,
+   (section_on_cell s η ▹▹ section_on_mor s g)
+   •• pr1 (section_on_comp s f₂ g))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk55" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk55"><hr></label><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f₁ · g,,
+            (section_on_mor s f₁ ;; section_on_mor s g)%mor_disp) ==&gt;
+         pr1 (f₂ · g,, section_on_mor s (f₂ · g)),
+   pr2
+     (f₁ · g,,
+      (section_on_mor s f₁ ;; section_on_mor s g)%mor_disp) ==&gt;[
+   x] pr2 (f₂ · g,, section_on_mor s (f₂ · g))) <span class="nl">?p</span>
+  (pr2
+     ((id₂ (f₁ · g) • (η ▹ g)),,
+      pr1 (section_on_comp s f₁ g)
+      •• section_on_cell s (η ▹ g))) =
+pr2
+  (((η ▹ g) • id₂ (f₂ · g)),,
+   (section_on_cell s η ▹▹ section_on_mor s g)
+   •• pr1 (section_on_comp s f₂ g))</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk56" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk56">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">pr1
+  ((id₂ (f₁ · g) • (η ▹ g)),,
+   pr1 (section_on_comp s f₁ g)
+   •• section_on_cell s (η ▹ g)) =
+pr1
+  (((η ▹ g) • id₂ (f₂ · g)),,
+   (section_on_cell s η ▹▹ section_on_mor s g)
+   •• pr1 (section_on_comp s f₂ g))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> section_disp_bicat_laws_rwhisker_base.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk57" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk57">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>a, b, c</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f₁, f₂</var><span class="hyp-type"><b>: </b><span>B ⟦ a, b ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ b, c ⟧</span></span></span><br><span><var>η</var><span class="hyp-type"><b>: </b><span>f₁ ==&gt; f₂</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">transportf
+  (<span class="kr">λ</span> <span class="nv">x</span> : pr1
+           (f₁ · g,,
+            (section_on_mor s f₁ ;; section_on_mor s g)%mor_disp) ==&gt;
+         pr1 (f₂ · g,, section_on_mor s (f₂ · g)),
+   pr2
+     (f₁ · g,,
+      (section_on_mor s f₁ ;; section_on_mor s g)%mor_disp) ==&gt;[
+   x] pr2 (f₂ · g,, section_on_mor s (f₂ · g)))
+  (section_disp_bicat_laws_rwhisker_base g η)
+  (pr2
+     ((id₂ (f₁ · g) • (η ▹ g)),,
+      pr1 (section_on_comp s f₁ g)
+      •• section_on_cell s (η ▹ g))) =
+pr2
+  (((η ▹ g) • id₂ (f₂ · g)),,
+   (section_on_cell s η ▹▹ section_on_mor s g)
+   •• pr1 (section_on_comp s f₂ g))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> (section_disp_bicat_rwhisker s).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Qed</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk58" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk58"><span class="kn">Definition</span> <span class="nf">section_to_psfunctor_invertible_cells</span>
+    : invertible_cells section_to_psfunctor_data.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">invertible_cells section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk59" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk59"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">invertible_cells section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5a" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5a"><span class="nb">split</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ a : B,
+is_invertible_2cell
+  (PseudoFunctorBicat.psfunctor_id
+     section_to_psfunctor_data a)</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk5b" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk5b"><hr></label><div class="goal-conclusion">∏ (a b c : B) (f : B ⟦ a, b ⟧) (g : B ⟦ b, c ⟧),
+is_invertible_2cell
+  (PseudoFunctorBicat.psfunctor_comp
+     section_to_psfunctor_data f g)</div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5c" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5c">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ a : B,
+is_invertible_2cell
+  (PseudoFunctorBicat.psfunctor_id
+     section_to_psfunctor_data a)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5d" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5d"><span class="nb">intro</span> x ; <span class="nb">cbn</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell
+  (id₂ (id₁ x),, pr1 (section_on_id s x))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5e" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5e">use is_invertible_disp_to_total.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∑ Hα : is_invertible_2cell (id₂ (id₁ x)),
+is_disp_invertible_2cell Hα (pr1 (section_on_id s x))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk5f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk5f"><span class="nb">simple refine</span> (_ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell (id₂ (id₁ x))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk60" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk60"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">Hα</span> : is_invertible_2cell (id₂ (id₁ x)),
+ is_disp_invertible_2cell Hα (pr1 (section_on_id s x)))
+  <span class="nl">?pr1</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk61" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk61">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell (id₂ (id₁ x))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> is_invertible_2cell_id₂.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk62" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk62">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">Hα</span> : is_invertible_2cell (id₂ (id₁ x)),
+ is_disp_invertible_2cell Hα (pr1 (section_on_id s x)))
+  (is_invertible_2cell_id₂ (id₁ x))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (pr2 (section_on_id s x)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk63" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk63">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∏ (a b c : B) (f : B ⟦ a, b ⟧) (g : B ⟦ b, c ⟧),
+is_invertible_2cell
+  (PseudoFunctorBicat.psfunctor_comp
+     section_to_psfunctor_data f g)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk64" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk64"><span class="nb">intros</span> x y z f g ; <span class="nb">cbn</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell
+  (id₂ (f · g),, pr1 (section_on_comp s f g))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk65" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk65">use is_invertible_disp_to_total.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">∑ Hα : is_invertible_2cell (id₂ (f · g)),
+is_disp_invertible_2cell Hα
+  (pr1 (section_on_comp s f g))</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk66" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk66"><span class="nb">simple refine</span> (_ ,, _).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell (id₂ (f · g))</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk67" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk67"><hr></label><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">Hα</span> : is_invertible_2cell (id₂ (f · g)),
+ is_disp_invertible_2cell Hα
+   (pr1 (section_on_comp s f g))) <span class="nl">?pr1</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk68" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk68">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">is_invertible_2cell (id₂ (f · g))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="nb">apply</span> is_invertible_2cell_id₂.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">      </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk69" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk69">+</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br><span><var>x, y, z</var><span class="hyp-type"><b>: </b><span>B</span></span></span><br><span><var>f</var><span class="hyp-type"><b>: </b><span>B ⟦ x, y ⟧</span></span></span><br><span><var>g</var><span class="hyp-type"><b>: </b><span>B ⟦ y, z ⟧</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">(<span class="kr">λ</span> <span class="nv">Hα</span> : is_invertible_2cell (id₂ (f · g)),
+ is_disp_invertible_2cell Hα
+   (pr1 (section_on_comp s f g)))
+  (is_invertible_2cell_id₂ (f · g))</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> (pr2 (section_on_comp s f g)).</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">
+</span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk6a" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk6a"><span class="kn">Definition</span> <span class="nf">section_to_psfunctor</span>
+    : psfunctor B (total_bicat D).</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor B (total_bicat D)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk6b" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk6b"><span class="kn">Proof</span>.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor B (total_bicat D)</div></blockquote></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk6c" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk6c">use make_psfunctor.</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_data B (total_bicat D)</div></blockquote><div class="alectryon-extra-goals"><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk6d" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk6d"><hr></label><div class="goal-conclusion">psfunctor_laws <span class="nl">?F</span></div></blockquote><input class="alectryon-extra-goal-toggle" id="DispBicatSection-v-chk6e" style="display: none" type="checkbox"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><label class="goal-separator" for="DispBicatSection-v-chk6e"><hr></label><div class="goal-conclusion">invertible_cells <span class="nl">?F</span></div></blockquote></div></div></div></small><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk6f" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk6f">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_data B (total_bicat D)</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> section_to_psfunctor_data.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk70" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk70">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">psfunctor_laws section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> section_to_psfunctor_laws.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">    </span><span class="alectryon-sentence"><input class="alectryon-toggle" id="DispBicatSection-v-chk71" style="display: none" type="checkbox"><label class="alectryon-input" for="DispBicatSection-v-chk71">-</label><small class="alectryon-output"><div><div class="alectryon-goals"><blockquote class="alectryon-goal"><div class="goal-hyps"><span><var>B</var><span class="hyp-type"><b>: </b><span>bicat</span></span></span><br><span><var>D</var><span class="hyp-type"><b>: </b><span>disp_bicat B</span></span></span><br><span><var>s</var><span class="hyp-type"><b>: </b><span>section_disp_bicat D</span></span></span><br></div><span class="goal-separator"><hr></span><div class="goal-conclusion">invertible_cells section_to_psfunctor_data</div></blockquote></div></div></small><span class="alectryon-wsp"> </span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="bp">exact</span> section_to_psfunctor_invertible_cells.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-wsp">  </span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">Defined</span>.</span><span class="alectryon-wsp">
+</span></span><span class="alectryon-sentence"><span class="alectryon-input"><span class="kn">End</span> <span class="nf">SectionToPsfunctor</span>.</span><span class="alectryon-wsp">
+</span></span></pre></article></body></html>
